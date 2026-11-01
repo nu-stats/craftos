@@ -2,7 +2,7 @@ Origin: CraftOS
 Label: CraftOS
 Codename: bookworm
 Suite: stable
-Architectures: amd64 arm64 all source
+Architectures: amd64 arm64 source
 Components: main
 Description: CraftOS apt repository (nu-stats Craft apps and craftos-desktop)
 SignWith: default
