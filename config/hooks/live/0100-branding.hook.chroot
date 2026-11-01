@@ -58,3 +58,7 @@ for f in /usr/share/applications/*calamares*.desktop /usr/share/applications/*in
 done
 gtk-update-icon-cache -f /usr/share/icons/hicolor 2>/dev/null || true
 
+# Live desktop shortcut: Debian marks it trusted only on Xfce, so GNOME's
+# desktop shows a raw "install-debian.desktop" file. Trust it everywhere.
+sed -i 's/^if \[ "\$XDG_CURRENT_DESKTOP" = "XFCE" \]; then *$/if true; then/' /usr/bin/add-calamares-desktop-icon
+

@@ -39,6 +39,8 @@ zenity
 gnome-shell-extension-dash-to-panel
 gnome-shell-extension-appindicator
 gnome-shell-extension-arc-menu
+# ArcMenu only Recommends this, but fails to load without it.
+gir1.2-gmenu-3.0
 gnome-shell-extension-desktop-icons-ng
 # Not in Debian 12; packaged into the CraftOS repo by scripts/build-extension-debs.sh
 gnome-shell-extension-blur-my-shell

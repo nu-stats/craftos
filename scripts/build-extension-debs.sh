@@ -18,7 +18,7 @@ trap 'rm -rf "$tmp"' EXIT
 tag=v46
 uuid=blur-my-shell@aunetx
 pkg=gnome-shell-extension-blur-my-shell
-version="46-1craftos1"
+version="46-1craftos2"
 
 gh release download "$tag" --repo aunetx/blur-my-shell \
     --pattern "$uuid.shell-extension.zip" --dir "$tmp"
@@ -29,9 +29,10 @@ mkdir -p "$stage/DEBIAN" "$ext" "$stage/usr/share/glib-2.0/schemas" "$stage/usr/
 unzip -q "$tmp/$uuid.shell-extension.zip" -d "$ext"
 grep -q '"43"' "$ext/metadata.json" || { echo "blur-my-shell $tag does not support GNOME 43" >&2; exit 1; }
 
-# System-wide schema so dconf defaults (and the glib trigger) can see it.
+# System-wide copy of the schema so dconf defaults can see it; the extension
+# itself loads the compiled copy in its own schemas/ folder, so keep that.
 cp "$ext"/schemas/*.gschema.xml "$stage/usr/share/glib-2.0/schemas/"
-rm -f "$ext/schemas/gschemas.compiled"
+[ -f "$ext/schemas/gschemas.compiled" ] || glib-compile-schemas "$ext/schemas"
 find "$stage" -type d -exec chmod 0755 {} +
 find "$ext" -type f -exec chmod 0644 {} +
 
