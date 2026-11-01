@@ -40,6 +40,10 @@ zenity
 # Zorin-style layout, theme, fonts
 gnome-shell-extension-dash-to-panel
 gnome-shell-extension-appindicator
+gnome-shell-extension-arc-menu
+gnome-shell-extension-desktop-icons-ng
+# Not in Debian 12; packaged into the CraftOS repo by scripts/build-extension-debs.sh
+gnome-shell-extension-blur-my-shell
 arc-theme
 papirus-icon-theme
 adwaita-icon-theme

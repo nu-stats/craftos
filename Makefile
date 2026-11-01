@@ -1,11 +1,14 @@
-.PHONY: iso repo trial meta apps clean
+.PHONY: iso repo trial extensions meta apps clean
 
 # Needs a Debian/Ubuntu host (or WSL2) with:
 #   live-build debootstrap dpkg-dev reprepro gnupg gh
 
 # Build the signed apt repo into repo/public/ (needs the signing key in gpg).
-repo: apps trial meta
+repo: apps trial extensions meta
 	sh scripts/publish-repo.sh
+
+extensions:
+	sh scripts/build-extension-debs.sh
 
 # The ISO installs from the hosted repo, so publish the repo first.
 iso:

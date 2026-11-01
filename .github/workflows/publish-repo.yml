@@ -42,6 +42,7 @@ jobs:
         run: |
           sh scripts/fetch-apps.sh
           sh scripts/build-trial-debs.sh
+          sh scripts/build-extension-debs.sh
           sh scripts/build-meta.sh
 
       - name: Publish signed repo

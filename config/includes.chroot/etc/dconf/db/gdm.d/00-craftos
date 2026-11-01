@@ -1,3 +1,0 @@
-# Login screen: no Debian logo.
-[org/gnome/login-screen]
-logo=''

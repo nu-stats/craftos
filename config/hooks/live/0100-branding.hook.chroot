@@ -17,6 +17,14 @@ printf 'CraftOS 0.1\n' > /etc/issue.net
 # Compile dconf defaults (panel layout, theme, wallpaper, favourites).
 dconf update
 
+# Login screen. Debian's GDM reads only /etc/gdm3/greeter.dconf-defaults
+# (compiled when gdm starts), not a system dconf db, so set the logo there.
+sed -i 's#^logo=.*#logo='"'"'/usr/share/craftos/login-logo.png'"'"'#' /etc/gdm3/greeter.dconf-defaults
+
+# No Debian swirl as everyone's account picture: drop desktop-base's default
+# face so GNOME shows its neutral avatar until the user picks one.
+rm -f /etc/skel/.face /etc/skel/.face.icon
+
 # Boot splash.
 plymouth-set-default-theme -R craftos
 
