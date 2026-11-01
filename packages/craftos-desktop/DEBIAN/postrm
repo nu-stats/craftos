@@ -1,0 +1,12 @@
+#!/bin/sh
+# Hand /usr/lib/os-release back to base-files when craftos-desktop goes away.
+set -e
+
+case "$1" in
+    remove|abort-install|disappear)
+        dpkg-divert --package craftos-desktop --remove --rename \
+            --divert /usr/lib/os-release.debian /usr/lib/os-release
+        ;;
+esac
+
+exit 0

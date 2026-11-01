@@ -2,14 +2,8 @@
 # Runs inside the image chroot at build time.
 set -e
 
-# Keep ID=debian so tools treat us as Debian; change what users see.
-# /etc/os-release is a symlink to this file.
-sed -i \
-    -e 's/^PRETTY_NAME=.*/PRETTY_NAME="CraftOS 0.1 (based on Debian GNU\/Linux 12)"/' \
-    -e 's/^NAME=.*/NAME="CraftOS"/' \
-    -e 's/^HOME_URL=.*/HOME_URL="https:\/\/github.com\/nu-stats\/craftos"/' \
-    /usr/lib/os-release
-echo 'VARIANT="CraftOS spin"' >> /usr/lib/os-release
+# /usr/lib/os-release (NAME="CraftOS", ID=debian) comes from craftos-desktop,
+# which diverts base-files' copy so Debian updates do not undo it.
 echo "CraftOS 0.1" > /etc/craftos-release
 printf 'CraftOS 0.1 \\n \\l\n\n' > /etc/issue
 printf 'CraftOS 0.1\n' > /etc/issue.net

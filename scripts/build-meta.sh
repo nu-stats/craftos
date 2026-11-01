@@ -37,6 +37,6 @@ for pkg in craftos-desktop craftos-archive-keyring; do
             > "$stage/usr/share/keyrings/craftos-archive-keyring.gpg"
     fi
     chmod 0755 "$stage/DEBIAN"
-    [ -f "$stage/DEBIAN/postinst" ] && chmod 0755 "$stage/DEBIAN/postinst"
+    for s in preinst postinst prerm postrm; do if [ -f "$stage/DEBIAN/$s" ]; then chmod 0755 "$stage/DEBIAN/$s"; fi; done
     dpkg-deb --root-owner-group --build "$stage" "$out/${pkg}_${version}_all.deb"
 done

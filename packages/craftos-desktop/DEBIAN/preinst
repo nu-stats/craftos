@@ -1,0 +1,12 @@
+#!/bin/sh
+# Take over /usr/lib/os-release from base-files, so Debian point releases
+# (which upgrade base-files) do not rename the system back to "Debian".
+# ID=debian and the version fields stay Debian's, so tools still see Debian.
+set -e
+
+if [ "$1" = install ] || [ "$1" = upgrade ]; then
+    dpkg-divert --package craftos-desktop --add --rename \
+        --divert /usr/lib/os-release.debian /usr/lib/os-release
+fi
+
+exit 0
