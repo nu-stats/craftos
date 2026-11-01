@@ -23,7 +23,26 @@ plymouth-set-default-theme -R craftos
 # Installer: show CraftOS instead of Debian. Only the name/label fields.
 for d in /etc/calamares/branding/*/ /usr/share/calamares/branding/*/; do
     [ -f "${d}branding.desc" ] || continue
-    sed -i -E '/^[[:space:]]*(productName|shortProductName|versionedName|shortVersionedName|bootloaderEntryName):/ s/Debian GNU\/Linux|Debian/CraftOS/g' "${d}branding.desc"
+    sed -i -E \
+        -e '/^[[:space:]]*(productName|shortProductName|bootloaderEntryName):/ s/Debian GNU\/Linux|Debian/CraftOS/g' \
+        -e 's/^([[:space:]]*version:).*/\1             0.1 (Debian 12 based)/' \
+        -e 's/^([[:space:]]*shortVersion:).*/\1        0.1/' \
+        -e 's/^([[:space:]]*versionedName:).*/\1       CraftOS 0.1/' \
+        -e 's/^([[:space:]]*shortVersionedName:).*/\1  CraftOS 0.1/' \
+        -e 's#^([[:space:]]*(productUrl|supportUrl|donateUrl):).*#\1 https://github.com/nu-stats/craftos#' \
+        -e 's#^([[:space:]]*knownIssuesUrl:).*#\1 https://github.com/nu-stats/craftos/issues#' \
+        -e 's#^([[:space:]]*releaseNotesUrl:).*#\1 https://github.com/nu-stats/craftos\#readme#' \
+        -e 's/^([[:space:]]*sidebarBackground:).*/\1    "#0b1e1b"/' \
+        -e 's/^([[:space:]]*sidebarTextSelect:).*/\1    "#78dcb4"/' \
+        "${d}branding.desc"
+    # Swap the artwork in place (file names stay what branding.desc expects).
+    for img in $(sed -n -E 's/^[[:space:]]*(productLogo|productIcon):[[:space:]]*"?([^"]*)"?/\2/p' "${d}branding.desc"); do
+        cp /usr/share/craftos/calamares/logo.png "${d}${img}"
+    done
+    img=$(sed -n -E 's/^[[:space:]]*productWelcome:[[:space:]]*"?([^"]*)"?/\1/p' "${d}branding.desc")
+    [ -n "$img" ] && cp /usr/share/craftos/calamares/welcome.png "${d}${img}"
+    [ -f "${d}slide1.png" ] && cp /usr/share/craftos/calamares/slide1.png "${d}slide1.png"
+    [ -f "${d}show.qml" ] && sed -i 's/Welcome to Debian GNU\/Linux\./Welcome to CraftOS./' "${d}show.qml"
 done
 for f in /usr/share/applications/*calamares*.desktop /usr/share/applications/*install*debian*.desktop; do
     [ -f "$f" ] || continue

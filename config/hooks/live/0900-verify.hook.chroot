@@ -26,7 +26,10 @@ chk "installer launcher uses it"   'grep -qs "^Icon=craftos-install" /usr/share/
 chk "zenity supports --icon-name"     'grep -q icon-name /usr/bin/zenity'
 chk "live installer needs no password" '[ -x /lib/live/config/2000-craftos-installer ]'
 chk "live user named CraftOS"      'grep -qs "CraftOS" /etc/live/config.conf.d/craftos.conf'
-chk "LibreOffice absent"        '! dpkg -s libreoffice-core >/dev/null 2>&1'
+chk "installer tools present"      'command -v unsquashfs >/dev/null && command -v rsync >/dev/null && command -v mkfs.vfat >/dev/null'
+chk "installer art is CraftOS"     'cmp -s /usr/share/craftos/calamares/welcome.png /usr/share/calamares/branding/debian/welcome.png'
+chk "installer text is CraftOS"    '! grep -q "Debian GNU/Linux" /usr/share/calamares/branding/debian/show.qml'
+chk "LibreOffice absent"      '! dpkg -s libreoffice-core >/dev/null 2>&1'
 chk "no GNOME games pulled in"     '! dpkg -s gnome-games >/dev/null 2>&1 && ! dpkg -s aisleriot >/dev/null 2>&1'
 
 for app in wordcraft gridcraft deckcraft pdfcraft; do

@@ -77,6 +77,11 @@ firmware-linux
 # Installer
 calamares
 calamares-settings-debian
+# Calamares only Recommends these (or not at all), but unpackfs and the EFI
+# partition step fail without them.
+squashfs-tools
+rsync
+dosfstools
 
 # Live session and boot splash. live-config only creates the live user and
 # GDM autologin when its Recommends are present, and recommends are off, so
