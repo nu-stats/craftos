@@ -26,6 +26,7 @@ chk "start menu (ArcMenu)"         '[ -d /usr/share/gnome-shell/extensions/arcme
 chk "ArcMenu can load (GMenu)"     'ls /usr/lib/*/girepository-1.0/GMenu-3.0.typelib >/dev/null 2>&1'
 chk "Blur My Shell schemas compiled" '[ -f /usr/share/gnome-shell/extensions/blur-my-shell@aunetx/schemas/gschemas.compiled ]'
 chk "installer shortcut trusted"    '! grep -q "XFCE\" ]; then" /usr/bin/add-calamares-desktop-icon'
+chk "ArtCraft menu group"         '[ -f /etc/xdg/menus/applications-merged/craftos-artcraft.menu ] && [ -f /usr/share/desktop-directories/craftos-artcraft.directory ]'
 chk "desktop icons (DING)"         '[ -d /usr/share/gnome-shell/extensions/ding@rastersoft.com ]'
 chk "frosted glass (Blur My Shell)" '[ -f /usr/share/gnome-shell/extensions/blur-my-shell@aunetx/metadata.json ] && [ -f /usr/share/glib-2.0/schemas/org.gnome.shell.extensions.blur-my-shell.gschema.xml ]'
 chk "gnome-menus (folder names)"   'dpkg -s gnome-menus >/dev/null 2>&1'

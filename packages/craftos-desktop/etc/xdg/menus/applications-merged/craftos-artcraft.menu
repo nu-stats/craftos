@@ -1,0 +1,17 @@
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+ "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+<!-- Groups the ArtCraft suite under one submenu in category-based menus
+     (ArcMenu categories and other XDG menus). -->
+<Menu>
+  <Name>Applications</Name>
+  <Menu>
+    <Name>ArtCraft</Name>
+    <Directory>craftos-artcraft.directory</Directory>
+    <Include>
+      <Filename>ai.storyteller.wordcraft.desktop</Filename>
+      <Filename>ai.storyteller.gridcraft.desktop</Filename>
+      <Filename>ai.storyteller.deckcraft.desktop</Filename>
+      <Filename>ai.storyteller.pdfcraft.desktop</Filename>
+    </Include>
+  </Menu>
+</Menu>

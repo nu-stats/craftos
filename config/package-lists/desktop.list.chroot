@@ -42,6 +42,8 @@ gnome-shell-extension-arc-menu
 # ArcMenu only Recommends this, but fails to load without it.
 gir1.2-gmenu-3.0
 gnome-shell-extension-desktop-icons-ng
+# Quick-look previews for desktop icons (DING asks for it on Space).
+gnome-sushi
 # Not in Debian 12; packaged into the CraftOS repo by scripts/build-extension-debs.sh
 gnome-shell-extension-blur-my-shell
 arc-theme

@@ -45,6 +45,17 @@ custom-menu-button-icon='/usr/share/craftos/start-button.svg'
 custom-menu-button-icon-size=28.0
 menu-hotkey='Super_L'
 position-in-panel='Left'
+# Pinned: the ArtCraft suite together first, then the basics and Craft apps.
+# Triples of name, icon ('' = the app's own), desktop file.
+pinned-app-list=['WordCraft', '', 'ai.storyteller.wordcraft.desktop', 'GridCraft', '', 'ai.storyteller.gridcraft.desktop', 'DeckCraft', '', 'ai.storyteller.deckcraft.desktop', 'PdfCraft', '', 'ai.storyteller.pdfcraft.desktop', 'Firefox ESR', '', 'firefox-esr.desktop', 'Files', '', 'org.gnome.Nautilus.desktop', 'Terminal', '', 'org.gnome.Terminal.desktop', 'Software', '', 'org.gnome.Software.desktop', 'StatCraft', '', 'statcraft.desktop', 'RCraft', '', 'rcraft.desktop', 'QualCraft', '', 'qualcraft.desktop']
+
+# App grid: the ArtCraft suite in one folder, next to GNOME's Utilities.
+[org/gnome/desktop/app-folders]
+folder-children=['Utilities', 'ArtCraft']
+
+[org/gnome/desktop/app-folders/folders/ArtCraft]
+name='ArtCraft'
+apps=['ai.storyteller.wordcraft.desktop', 'ai.storyteller.gridcraft.desktop', 'ai.storyteller.deckcraft.desktop', 'ai.storyteller.pdfcraft.desktop']
 
 # Desktop icons: Home and Trash, new icons bottom-right like Zorin.
 [org/gnome/shell/extensions/ding]
