@@ -20,6 +20,8 @@ file-roller
 xdg-desktop-portal-gnome
 xdg-user-dirs-gtk
 xdg-utils
+gnome-menus
+desktop-file-utils
 dbus-user-session
 gvfs
 gvfs-backends

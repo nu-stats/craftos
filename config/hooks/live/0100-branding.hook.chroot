@@ -27,8 +27,9 @@ for d in /etc/calamares/branding/*/ /usr/share/calamares/branding/*/; do
 done
 for f in /usr/share/applications/*calamares*.desktop /usr/share/applications/*install*debian*.desktop; do
     [ -f "$f" ] || continue
-    sed -i -E 's/^Name=.*(Debian|Install).*/Name=Install CraftOS/' "$f"
+    sed -i -E -e 's/^Name=.*(Debian|Install).*/Name=Install CraftOS/' -e 's/^Icon=.*/Icon=craftos-install/' "$f"
 done
+gtk-update-icon-cache -f /usr/share/icons/hicolor 2>/dev/null || true
 
 # Flathub for the software center.
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo || true
