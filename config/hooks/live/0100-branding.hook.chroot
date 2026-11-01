@@ -14,6 +14,8 @@ echo "CraftOS 0.1" > /etc/craftos-release
 printf 'CraftOS 0.1 \\n \\l\n\n' > /etc/issue
 printf 'CraftOS 0.1\n' > /etc/issue.net
 
+# craftos-desktop's postinst does these two on installed systems; repeat them
+# here because in the image's single apt run gdm3 may be configured after it.
 # Compile dconf defaults (panel layout, theme, wallpaper, favourites).
 dconf update
 

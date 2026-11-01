@@ -89,7 +89,7 @@ foreach ($px in 256, 48) {
 $size = 40; $w = [int]($size * 6.2); $h = [int]($size * 1.6)
 $c = New-Canvas $w $h; $bmp = $c[0]; $g = $c[1]
 Draw-Wordmark $g ($w / 2) ($size * 0.15) $size
-$bmp.Save((Join-Path $root 'config\includes.chroot\usr\share\craftos\login-logo.png'), [System.Drawing.Imaging.ImageFormat]::Png)
+$bmp.Save((Join-Path $root 'packages\craftos-desktop\usr\share\craftos\login-logo.png'), [System.Drawing.Imaging.ImageFormat]::Png)
 $g.Dispose(); $bmp.Dispose()
 
 # Installer (Calamares) artwork, copied over Debian's by the branding hook.

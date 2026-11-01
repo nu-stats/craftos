@@ -1,0 +1,18 @@
+#!/bin/sh
+# Apply the CraftOS desktop defaults on install and on every upgrade, so
+# installed systems pick up look changes through apt, not only new ISOs.
+set -e
+
+if [ "$1" = configure ]; then
+    # Compile /etc/dconf/db/craftos.d into the system defaults database.
+    dconf update
+
+    # Login screen logo. Debian's GDM reads this file (compiled when gdm
+    # starts), not a system dconf database.
+    greeter=/etc/gdm3/greeter.dconf-defaults
+    if [ -f "$greeter" ]; then
+        sed -i "s#^logo=.*#logo='/usr/share/craftos/login-logo.png'#" "$greeter"
+    fi
+fi
+
+exit 0

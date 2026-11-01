@@ -4,7 +4,7 @@ Section: metapackages
 Priority: optional
 Architecture: all
 Maintainer: nu-stats <j.stowell@northeastern.edu>
-Depends: r-base, python3
+Depends: dconf-cli, gnome-shell-extension-dash-to-panel, gnome-shell-extension-appindicator, gnome-shell-extension-arc-menu, gir1.2-gmenu-3.0, gnome-shell-extension-desktop-icons-ng, gnome-shell-extension-blur-my-shell, arc-theme, papirus-icon-theme, fonts-inter, r-base, python3
 Recommends: statcraft, rcraft, qualcraft, egocraft, mapcraft, husky-eye-view, mergecraft, husky-explorer, heic-converter, craft-keys
 Description: CraftOS desktop metapackage
  Pulls in WordCraft, GridCraft, DeckCraft and PdfCraft (made by the ArtCraft

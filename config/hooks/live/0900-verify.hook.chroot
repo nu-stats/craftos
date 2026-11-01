@@ -9,7 +9,7 @@ chk() {
     fi
 }
 
-chk "dconf database compiled"      '[ -f /etc/dconf/db/craftos ]'
+chk "dconf database compiled"      '[ -f /etc/dconf/db/craftos ] && dpkg -S /etc/dconf/db/craftos.d/00-craftos 2>/dev/null | grep -q craftos-desktop'
 chk "Arc theme installed"          '[ -d /usr/share/themes/Arc ]'
 chk "Papirus icons installed"      '[ -d /usr/share/icons/Papirus ]'
 chk "os-release says CraftOS"      'grep -q "^NAME=\"CraftOS\"" /usr/lib/os-release'
