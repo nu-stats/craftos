@@ -1,0 +1,10 @@
+Package: craftos-archive-keyring
+Version: 0.1
+Section: misc
+Priority: optional
+Architecture: all
+Maintainer: nu-stats <j.stowell@northeastern.edu>
+Description: CraftOS apt repository signing key and source entry
+ Installs the public key that signs the CraftOS apt repository and a
+ deb822 sources file pointing at it, so apt full-upgrade delivers new
+ Craft app releases and craftos-desktop updates.

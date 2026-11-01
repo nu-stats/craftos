@@ -1,0 +1,13 @@
+# The Craft suite comes in through the metapackage, served from the CraftOS
+# apt repo (config/archives/craftos.list.chroot). The keyring package makes
+# the installed system keep pulling updates from the same repo.
+craftos-archive-keyring
+craftos-desktop
+
+# Toolchain the stats apps lean on (Depends of craftos-desktop covers most;
+# listed here so the ISO fails loudly if one disappears).
+r-base
+python3
+python3-venv
+python3-pip
+git

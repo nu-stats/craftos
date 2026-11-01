@@ -1,0 +1,29 @@
+name: build-iso
+
+# Builds a live ISO that installs craftos-desktop from the CraftOS apt repo.
+# Triggered by publish-repo after each repo update, by pushes to main, or by hand.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  iso:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: sudo apt-get update && sudo apt-get install -y live-build debootstrap
+
+      - name: Build ISO
+        run: |
+          chmod +x auto/*
+          sudo lb clean --purge || true
+          sudo sh auto/config
+          sudo sh auto/build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: craftos-iso
+          path: "*.iso"

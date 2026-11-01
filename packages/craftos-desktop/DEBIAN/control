@@ -1,0 +1,12 @@
+Package: craftos-desktop
+Version: 0.1
+Section: metapackages
+Priority: optional
+Architecture: all
+Maintainer: nu-stats <j.stowell@northeastern.edu>
+Depends: r-base, python3
+Recommends: statcraft, rcraft, qualcraft, egocraft, mapcraft, husky-eye-view, husky-merge, husky-explorer, heic-converter, craft-keys
+Description: CraftOS desktop metapackage
+ Pulls in the Craft suite of research apps from the nu-stats organisation
+ and the shared toolchain they need. Apps are Recommends so the image still
+ builds while some apps have no .deb yet.

@@ -1,0 +1,14 @@
+*.iso
+*.log
+chroot/
+binary/
+cache/
+.build/
+repo/incoming/
+repo/public/
+repo/db/
+config/binary
+config/bootstrap
+config/chroot
+config/common
+config/source

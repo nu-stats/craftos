@@ -1,0 +1,19 @@
+# Zorin-style defaults: bottom taskbar (Dash to Panel), light Arc theme,
+# Papirus icons, Craft apps pinned.
+[org/gnome/shell]
+enabled-extensions=['dash-to-panel@jderose9.github.com', 'appindicatorsupport@rgcjonas.gmail.com']
+favorite-apps=['firefox-esr.desktop', 'org.gnome.Nautilus.desktop', 'statcraft.desktop', 'rcraft.desktop', 'qualcraft.desktop', 'org.gnome.Software.desktop']
+
+[org/gnome/desktop/interface]
+gtk-theme='Arc'
+icon-theme='Papirus'
+font-name='Inter 10'
+clock-show-date=true
+
+[org/gnome/desktop/wm/preferences]
+button-layout='appmenu:minimize,maximize,close'
+
+[org/gnome/shell/extensions/dash-to-panel]
+panel-position='BOTTOM'
+panel-size=44
+show-appmenu=false

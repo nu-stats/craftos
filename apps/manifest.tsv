@@ -1,0 +1,11 @@
+name	repo	deb_package	asset_glob	notes
+statcraft	nu-stats/statcraft	statcraft	*amd64.deb	Phase 0; no release yet
+rcraft	nu-stats/rcraft	rcraft	*amd64.deb
+qualcraft	nu-stats/qualcraft	qualcraft	*amd64.deb
+egocraft	nu-stats/egocraft	egocraft	*amd64.deb
+mapcraft	nu-stats/mapcraft	mapcraft	*amd64.deb
+husky-eye-view	nu-stats/husky-eye-view	husky-eye-view	*amd64.deb
+husky-merge	nu-stats/mergecraft	husky-merge	*amd64.deb	repo is named mergecraft
+husky-explorer	nu-stats/husky-explorer	husky-explorer	*amd64.deb
+heic-converter	nu-stats/heic-converter	heic-converter	*amd64.deb
+craft-keys	nu-stats/craft-keys	craft-keys	*amd64.deb

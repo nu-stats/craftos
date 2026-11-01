@@ -1,0 +1,27 @@
+# Desktop: GNOME shell with a Zorin-style panel layout.
+task-gnome-desktop
+gnome-shell-extension-dash-to-panel
+gnome-shell-extension-appindicator
+gnome-tweaks
+gnome-software
+gnome-software-plugin-flatpak
+flatpak
+firefox-esr
+libreoffice-writer
+libreoffice-calc
+libreoffice-impress
+# Fonts and theme bits
+fonts-inter
+fonts-noto
+papirus-icon-theme
+arc-theme
+# Installer
+calamares
+calamares-settings-debian
+# Live-session basics
+live-boot
+live-config
+live-config-systemd
+network-manager-gnome
+plymouth
+plymouth-themes

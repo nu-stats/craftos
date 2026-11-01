@@ -1,0 +1,5 @@
+Types: deb
+URIs: https://nu-stats.github.io/craftos
+Suites: bookworm
+Components: main
+Signed-By: /usr/share/keyrings/craftos-archive-keyring.gpg
