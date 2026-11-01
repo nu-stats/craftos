@@ -23,6 +23,7 @@ chk "login screen db compiled"     '[ -f /etc/dconf/db/gdm ]'
 chk "gnome-menus (folder names)"   'dpkg -s gnome-menus >/dev/null 2>&1'
 chk "installer icon present"       '[ -f /usr/share/icons/hicolor/256x256/apps/craftos-install.png ]'
 chk "installer launcher uses it"   'grep -qs "^Icon=craftos-install" /usr/share/applications/*calamares*.desktop /usr/share/applications/*install*debian*.desktop'
+chk "zenity supports --icon-name"     'zenity --help-question 2>&1 | grep -q -- --icon-name'
 chk "LibreOffice absent"         '! dpkg -s libreoffice-core >/dev/null 2>&1'
 chk "no GNOME games pulled in"     '! dpkg -s gnome-games >/dev/null 2>&1 && ! dpkg -s aisleriot >/dev/null 2>&1'
 

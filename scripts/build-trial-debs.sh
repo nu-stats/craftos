@@ -58,7 +58,7 @@ EOF
 
     cat > "$stage/usr/bin/$name" <<EOF
 #!/bin/sh
-if zenity --question --width=440 --title="$title (trial)" --icon="$name" \\
+if zenity --question --width=440 --title="$title (trial)" --icon-name="$name" \\
     --ok-label="Open project page" --cancel-label="Close" \\
     --text="<b>$title</b>\\n\\nThis is a trial placeholder. The real app has not published a Linux package yet; this entry shows how it will appear in CraftOS (launcher, icon, taskbar)."; then
     xdg-open "https://github.com/$repo"
