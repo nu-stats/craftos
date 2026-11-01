@@ -3,8 +3,8 @@
 A Debian 12 spin (think a Fedora spin, not a new distro) that boots into a
 Zorin-style GNOME desktop with the nu-stats Craft apps preinstalled.
 
-> **Status: scaffold.** Nothing here has been built yet. The ISO has not been
-> booted. Treat every file as a first draft.
+> **Status: early preview.** CI builds the ISO and it boots in a VM; the
+> installer is being tested. Expect rough edges.
 
 ## What is in the spin
 
@@ -18,6 +18,22 @@ Zorin-style GNOME desktop with the nu-stats Craft apps preinstalled.
 | os-release branding, dconf compile, Flathub | `config/hooks/live/0100-branding.hook.chroot` |
 | App list and source repos | `apps/manifest.tsv` |
 | CI that builds the ISO | `.github/workflows/build-iso.yml` |
+
+## Credits
+
+CraftOS includes **WordCraft, GridCraft, DeckCraft and PdfCraft**, made by the
+ArtCraft team ([getartcraft.com](https://getartcraft.com),
+[github.com/storytold](https://github.com/storytold)). They are shipped
+unmodified from the team's official releases, under their MIT / Apache-2.0
+licenses, with their own NOTICE files. The ArtCraft name and logos are
+trademarks of the ArtCraft team.
+
+CraftOS is an independent project. It is **not affiliated with, sponsored by
+or endorsed by the ArtCraft team**. Please report CraftOS problems
+[here](https://github.com/nu-stats/craftos/issues), not to the app authors.
+
+CraftOS is built on [Debian](https://www.debian.org) and is not affiliated
+with the Debian project.
 
 ## Updates: apt repo, then ISO
 
