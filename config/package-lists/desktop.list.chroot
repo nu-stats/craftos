@@ -76,10 +76,17 @@ firmware-linux
 calamares
 calamares-settings-debian
 
-# Live session and boot splash
+# Live session and boot splash. live-config only creates the live user and
+# GDM autologin when its Recommends are present, and recommends are off, so
+# they are listed explicitly.
 live-boot
 live-config
 live-config-systemd
+live-tools
+user-setup
+locales
+keyboard-configuration
+tzdata
 plymouth
 
 # Basics

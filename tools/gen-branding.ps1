@@ -32,9 +32,9 @@ function Draw-Contours($g, $w, $h, $cx, $cy, $loops, $maxR) {
 function Draw-Wordmark($g, $cx, $y, $size) {
     $font = New-Object System.Drawing.Font 'Segoe UI Semibold', $size, ([System.Drawing.FontStyle]::Regular), ([System.Drawing.GraphicsUnit]::Pixel)
     $sf = New-Object System.Drawing.StringFormat; $sf.Alignment = 'Center'
-    $g.DrawString('Craft', $font, [System.Drawing.Brushes]::White, [single]($cx - $size * 0.62), [single]$y, $sf)
+    $g.DrawString('Craft', $font, [System.Drawing.Brushes]::White, [single]($cx - $size * 0.70), [single]$y, $sf)
     $acc = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(255, 120, 220, 180))
-    $g.DrawString('OS', $font, $acc, [single]($cx + $size * 1.02), [single]$y, $sf)
+    $g.DrawString('OS', $font, $acc, [single]($cx + $size * 1.10), [single]$y, $sf)
     $font.Dispose(); $acc.Dispose()
 }
 

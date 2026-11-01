@@ -1,14 +1,29 @@
 #!/bin/sh
-# Binary stage (runs in the build directory, after the bootloader files exist):
-# replace the stock Debian boot-menu artwork and labels. The GRUB theme reads
-# /isolinux/splash800x600.png and syslinux reads /isolinux/splash.png.
+# Binary stage: replace the stock Debian boot-menu artwork and labels. The GRUB
+# theme reads /isolinux/splash800x600.png and syslinux reads /isolinux/splash.png.
+# Locate the build tree explicitly (the hook's working directory is not
+# guaranteed) and fail the build if the branding did not land, so a green run
+# means the boot menu really is CraftOS.
 set -e
 
-if [ -d binary/isolinux ]; then
-    cp config/branding/splash-640x480.png binary/isolinux/splash.png
-    cp config/branding/splash-800x600.png binary/isolinux/splash800x600.png
-    sed -i 's/^menu title .*/menu title CraftOS/' binary/isolinux/menu.cfg
-    sed -i 's/Live system/CraftOS live/' binary/isolinux/live.cfg
+echo "boot-branding: cwd=$(pwd)"
+if   [ -d binary/isolinux ]    && [ -d config/branding ];    then root=.
+elif [ -d ../binary/isolinux ] && [ -d ../config/branding ]; then root=..
+elif [ -d isolinux ]           && [ -d ../config/branding ]; then root=..
+else
+    echo "boot-branding: cannot find binary/isolinux and config/branding from $(pwd)" >&2
+    ls -la . .. >&2 || true
+    exit 1
 fi
-[ -f binary/boot/grub/grub.cfg ] && sed -i 's/Live system/CraftOS live/' binary/boot/grub/grub.cfg
-exit 0
+bin="$root/binary"
+cfg="$root/config/branding"
+
+cp "$cfg/splash-640x480.png" "$bin/isolinux/splash.png"
+cp "$cfg/splash-800x600.png" "$bin/isolinux/splash800x600.png"
+sed -i 's/^menu title .*/menu title CraftOS/' "$bin/isolinux/menu.cfg"
+sed -i 's/Live system/CraftOS live/' "$bin/isolinux/live.cfg" "$bin/boot/grub/grub.cfg"
+
+cmp "$cfg/splash-800x600.png" "$bin/isolinux/splash800x600.png"
+grep -q "CraftOS live" "$bin/boot/grub/grub.cfg" || { echo "boot-branding: grub.cfg not rebranded" >&2; exit 1; }
+grep -q "CraftOS live" "$bin/isolinux/live.cfg"  || { echo "boot-branding: live.cfg not rebranded" >&2; exit 1; }
+echo "boot-branding: ok"

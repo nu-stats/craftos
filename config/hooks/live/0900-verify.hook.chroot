@@ -17,7 +17,10 @@ chk "Plymouth theme is craftos"    '[ "$(plymouth-set-default-theme)" = craftos 
 chk "craftos-desktop installed"    'dpkg -s craftos-desktop >/dev/null 2>&1'
 chk "default wallpaper present"    '[ -f /usr/share/backgrounds/craftos/contours-1921-faint-dark.jpg ]'
 chk "wallpaper chooser entry"      '[ -f /usr/share/gnome-background-properties/craftos.xml ]'
-chk "LibreOffice absent"           '! dpkg -s libreoffice-core >/dev/null 2>&1'
+chk "live user can be created"     'dpkg -s user-setup >/dev/null 2>&1 && dpkg -s live-config >/dev/null 2>&1'
+chk "live-tools installed"         'dpkg -s live-tools >/dev/null 2>&1'
+chk "login screen db compiled"     '[ -f /etc/dconf/db/gdm ]'
+chk "LibreOffice absent"          '! dpkg -s libreoffice-core >/dev/null 2>&1'
 chk "no GNOME games pulled in"     '! dpkg -s gnome-games >/dev/null 2>&1 && ! dpkg -s aisleriot >/dev/null 2>&1'
 
 for app in wordcraft gridcraft deckcraft pdfcraft; do
