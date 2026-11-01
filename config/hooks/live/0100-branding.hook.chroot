@@ -3,18 +3,32 @@
 set -e
 
 # Keep ID=debian so tools treat us as Debian; change what users see.
-if [ -f /etc/os-release ]; then
-    sed -i \
-        -e 's/^PRETTY_NAME=.*/PRETTY_NAME="CraftOS 0.1 (based on Debian GNU\/Linux 12)"/' \
-        -e 's/^NAME=.*/NAME="CraftOS"/' \
-        -e 's/^HOME_URL=.*/HOME_URL="https:\/\/github.com\/nu-stats"/' \
-        /etc/os-release
-    echo 'VARIANT="CraftOS spin"' >> /etc/os-release
-fi
+# /etc/os-release is a symlink to this file.
+sed -i \
+    -e 's/^PRETTY_NAME=.*/PRETTY_NAME="CraftOS 0.1 (based on Debian GNU\/Linux 12)"/' \
+    -e 's/^NAME=.*/NAME="CraftOS"/' \
+    -e 's/^HOME_URL=.*/HOME_URL="https:\/\/github.com\/nu-stats\/craftos"/' \
+    /usr/lib/os-release
+echo 'VARIANT="CraftOS spin"' >> /usr/lib/os-release
 echo "CraftOS 0.1" > /etc/craftos-release
+printf 'CraftOS 0.1 \\n \\l\n\n' > /etc/issue
+printf 'CraftOS 0.1\n' > /etc/issue.net
 
-# Compile dconf defaults (panel layout, theme, favourites).
+# Compile dconf defaults (panel layout, theme, wallpaper, favourites).
 dconf update
+
+# Boot splash.
+plymouth-set-default-theme -R craftos
+
+# Installer: show CraftOS instead of Debian. Only the name/label fields.
+for d in /etc/calamares/branding/*/ /usr/share/calamares/branding/*/; do
+    [ -f "${d}branding.desc" ] || continue
+    sed -i -E '/^[[:space:]]*(productName|shortProductName|versionedName|shortVersionedName|bootloaderEntryName):/ s/Debian GNU\/Linux|Debian/CraftOS/g' "${d}branding.desc"
+done
+for f in /usr/share/applications/*calamares*.desktop /usr/share/applications/*install*debian*.desktop; do
+    [ -f "$f" ] || continue
+    sed -i -E 's/^Name=.*(Debian|Install).*/Name=Install CraftOS/' "$f"
+done
 
 # Flathub for the software center.
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo || true

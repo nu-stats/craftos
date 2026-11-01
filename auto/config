@@ -11,7 +11,7 @@ lb config noauto \
     --binary-images iso-hybrid \
     --bootloaders "syslinux,grub-efi" \
     --debian-installer none \
-    --apt-recommends true \
+    --apt-recommends false \
     --iso-application "CraftOS" \
     --iso-publisher "nu-stats" \
     --iso-volume "CraftOS" \

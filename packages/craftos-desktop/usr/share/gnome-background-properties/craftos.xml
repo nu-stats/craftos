@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+<wallpapers>
+  <wallpaper deleted="false">
+    <name>Contours, faint (dark)</name>
+    <filename>/usr/share/backgrounds/craftos/contours-1921-faint-dark.jpg</filename>
+    <options>zoom</options>
+    <pcolor>#0e1f1a</pcolor>
+    <scolor>#0e1f1a</scolor>
+  </wallpaper>
+  <wallpaper deleted="false">
+    <name>Contours, faint (paper)</name>
+    <filename>/usr/share/backgrounds/craftos/contours-1921-faint-paper.jpg</filename>
+    <options>zoom</options>
+    <pcolor>#efe9d8</pcolor>
+    <scolor>#efe9d8</scolor>
+  </wallpaper>
+  <wallpaper deleted="false">
+    <name>Contours, quiet (dark)</name>
+    <filename>/usr/share/backgrounds/craftos/contours-1921-quiet-dark.jpg</filename>
+    <options>zoom</options>
+    <pcolor>#0e1f1a</pcolor>
+    <scolor>#0e1f1a</scolor>
+  </wallpaper>
+  <wallpaper deleted="false">
+    <name>Contours, quiet (paper)</name>
+    <filename>/usr/share/backgrounds/craftos/contours-1921-quiet-paper.jpg</filename>
+    <options>zoom</options>
+    <pcolor>#efe9d8</pcolor>
+    <scolor>#efe9d8</scolor>
+  </wallpaper>
+  <wallpaper deleted="false">
+    <name>Forget-me-not pasture</name>
+    <filename>/usr/share/backgrounds/craftos/forget-me-not-pasture.jpg</filename>
+    <options>zoom</options>
+    <pcolor>#5b86c4</pcolor>
+    <scolor>#5b86c4</scolor>
+  </wallpaper>
+</wallpapers>

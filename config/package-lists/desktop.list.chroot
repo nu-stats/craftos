@@ -1,27 +1,90 @@
-# Desktop: GNOME shell with a Zorin-style panel layout.
-task-gnome-desktop
-gnome-shell-extension-dash-to-panel
-gnome-shell-extension-appindicator
-gnome-tweaks
+# Explicit, minimal GNOME desktop. Recommends are off (auto/config), so
+# everything the session needs is listed here; no games, mail, calendar or
+# office suite (the ArtCraft apps come in through craftos-desktop instead).
+
+# Session and shell
+gdm3
+gnome-shell
+gnome-session
+gnome-settings-daemon
+gnome-control-center
+nautilus
+gnome-terminal
+gnome-text-editor
+gnome-system-monitor
+gnome-calculator
+gnome-disk-utility
+gnome-keyring
+libpam-gnome-keyring
+file-roller
+xdg-desktop-portal-gnome
+xdg-user-dirs-gtk
+xdg-utils
+dbus-user-session
+gvfs
+gvfs-backends
+gvfs-fuse
+
+# Software center
 gnome-software
 gnome-software-plugin-flatpak
+packagekit
 flatpak
+
+# Browser
 firefox-esr
-libreoffice-writer
-libreoffice-calc
-libreoffice-impress
-# Fonts and theme bits
-fonts-inter
-fonts-noto
-papirus-icon-theme
+
+# Zorin-style layout, theme, fonts
+gnome-shell-extension-dash-to-panel
+gnome-shell-extension-appindicator
 arc-theme
+papirus-icon-theme
+adwaita-icon-theme
+fonts-inter
+fonts-noto-core
+fonts-noto-color-emoji
+
+# Graphics stack (the ArtCraft apps render with Vulkan or EGL)
+xwayland
+xserver-xorg-core
+xserver-xorg-input-libinput
+xserver-xorg-video-vesa
+xserver-xorg-video-fbdev
+xserver-xorg-video-vmware
+libgl1-mesa-dri
+libegl1
+libvulkan1
+mesa-vulkan-drivers
+libxkbcommon0
+libxkbcommon-x11-0
+
+# Network, audio, power, privileges
+network-manager
+network-manager-gnome
+wpasupplicant
+pipewire
+pipewire-pulse
+wireplumber
+power-profiles-daemon
+polkitd
+pkexec
+sudo
+firmware-linux
+
 # Installer
 calamares
 calamares-settings-debian
-# Live-session basics
+
+# Live session and boot splash
 live-boot
 live-config
 live-config-systemd
-network-manager-gnome
 plymouth
-plymouth-themes
+
+# Basics
+bash-completion
+nano
+curl
+wget
+less
+ca-certificates

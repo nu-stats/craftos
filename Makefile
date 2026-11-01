@@ -4,7 +4,7 @@
 #   live-build debootstrap dpkg-dev reprepro gnupg gh
 
 # Build the signed apt repo into repo/public/ (needs the signing key in gpg).
-repo: meta apps
+repo: apps meta
 	sh scripts/publish-repo.sh
 
 # The ISO installs from the hosted repo, so publish the repo first.

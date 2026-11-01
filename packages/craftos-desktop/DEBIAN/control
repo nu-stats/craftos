@@ -5,8 +5,9 @@ Priority: optional
 Architecture: all
 Maintainer: nu-stats <j.stowell@northeastern.edu>
 Depends: r-base, python3
-Recommends: statcraft, rcraft, qualcraft, egocraft, mapcraft, husky-eye-view, husky-merge, husky-explorer, heic-converter, craft-keys
+Recommends: statcraft, rcraft, qualcraft, egocraft, mapcraft, husky-eye-view, mergecraft, husky-explorer, heic-converter, craft-keys
 Description: CraftOS desktop metapackage
- Pulls in the Craft suite of research apps from the nu-stats organisation
- and the shared toolchain they need. Apps are Recommends so the image still
- builds while some apps have no .deb yet.
+ Pulls in the ArtCraft office apps (wordcraft, gridcraft, deckcraft, pdfcraft),
+ the nu-stats Craft research apps, and the shared toolchain they need, and
+ ships the CraftOS wallpapers. App .debs found at build time become hard
+ Depends; apps without a release stay in Recommends until they have one.

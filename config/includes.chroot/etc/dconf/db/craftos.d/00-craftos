@@ -1,14 +1,24 @@
-# Zorin-style defaults: bottom taskbar (Dash to Panel), light Arc theme,
-# Papirus icons, Craft apps pinned.
+# Zorin-style defaults: bottom taskbar (Dash to Panel), Arc theme, Papirus
+# icons, ArtCraft office apps and Craft apps pinned. Launchers whose app is
+# not installed are ignored by GNOME.
 [org/gnome/shell]
 enabled-extensions=['dash-to-panel@jderose9.github.com', 'appindicatorsupport@rgcjonas.gmail.com']
-favorite-apps=['firefox-esr.desktop', 'org.gnome.Nautilus.desktop', 'statcraft.desktop', 'rcraft.desktop', 'qualcraft.desktop', 'org.gnome.Software.desktop']
+favorite-apps=['firefox-esr.desktop', 'org.gnome.Nautilus.desktop', 'ai.storyteller.wordcraft.desktop', 'ai.storyteller.gridcraft.desktop', 'ai.storyteller.deckcraft.desktop', 'ai.storyteller.pdfcraft.desktop', 'statcraft.desktop', 'rcraft.desktop', 'qualcraft.desktop', 'org.gnome.Software.desktop']
 
 [org/gnome/desktop/interface]
 gtk-theme='Arc'
 icon-theme='Papirus'
 font-name='Inter 10'
 clock-show-date=true
+
+[org/gnome/desktop/background]
+picture-uri='file:///usr/share/backgrounds/craftos/contours-1921-faint-dark.jpg'
+picture-uri-dark='file:///usr/share/backgrounds/craftos/contours-1921-faint-dark.jpg'
+picture-options='zoom'
+
+[org/gnome/desktop/screensaver]
+picture-uri='file:///usr/share/backgrounds/craftos/contours-1921-faint-dark.jpg'
+picture-options='zoom'
 
 [org/gnome/desktop/wm/preferences]
 button-layout='appmenu:minimize,maximize,close'

@@ -1,0 +1,14 @@
+#!/bin/sh
+# Binary stage (runs in the build directory, after the bootloader files exist):
+# replace the stock Debian boot-menu artwork and labels. The GRUB theme reads
+# /isolinux/splash800x600.png and syslinux reads /isolinux/splash.png.
+set -e
+
+if [ -d binary/isolinux ]; then
+    cp config/branding/splash-640x480.png binary/isolinux/splash.png
+    cp config/branding/splash-800x600.png binary/isolinux/splash800x600.png
+    sed -i 's/^menu title .*/menu title CraftOS/' binary/isolinux/menu.cfg
+    sed -i 's/Live system/CraftOS live/' binary/isolinux/live.cfg
+fi
+[ -f binary/boot/grub/grub.cfg ] && sed -i 's/Live system/CraftOS live/' binary/boot/grub/grub.cfg
+exit 0

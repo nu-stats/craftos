@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=CraftOS
+Description=CraftOS boot splash
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/craftos
+ScriptFile=/usr/share/plymouth/themes/craftos/craftos.script
