@@ -1,3 +1,5 @@
 #!/bin/sh
-set -e
-lb build noauto "${@}" 2>&1 | tee build.log
+# Keep lb's exit status: a plain `lb build | tee` reports tee's status and
+# lets a failed build look green in CI.
+{ lb build noauto "${@}" 2>&1; echo $? > .lb-status; } | tee build.log
+exit "$(cat .lb-status)"

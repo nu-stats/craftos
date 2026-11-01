@@ -16,5 +16,6 @@ lb config noauto \
     --iso-publisher "nu-stats" \
     --iso-volume "CraftOS" \
     --image-name craftos \
+    --debootstrap-options "--include=ca-certificates,gnupg" \
     --bootappend-live "boot=live components quiet splash locales=en_US.UTF-8 keyboard-layouts=us" \
     "${@}"
