@@ -1,0 +1,12 @@
+#!/bin/sh
+# Runs at live boot only (live-config hook), never on an installed system.
+# The live user already has passwordless sudo; let polkit match, so
+# "Install CraftOS" opens without a password prompt.
+mkdir -p /etc/polkit-1/rules.d
+cat > /etc/polkit-1/rules.d/49-craftos-live.rules <<'EOF'
+polkit.addRule(function(action, subject) {
+    if (subject.user == "user" && subject.local && subject.active) {
+        return polkit.Result.YES;
+    }
+});
+EOF
