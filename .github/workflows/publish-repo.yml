@@ -41,6 +41,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           sh scripts/fetch-apps.sh
+          sh scripts/build-trial-debs.sh
           sh scripts/build-meta.sh
 
       - name: Publish signed repo

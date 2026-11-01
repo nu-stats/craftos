@@ -33,6 +33,7 @@ flatpak
 
 # Browser
 firefox-esr
+zenity
 
 # Zorin-style layout, theme, fonts
 gnome-shell-extension-dash-to-panel

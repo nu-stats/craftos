@@ -1,12 +1,11 @@
 name: build-iso
 
 # Builds a live ISO that installs craftos-desktop from the CraftOS apt repo.
-# Triggered by publish-repo after each repo update, by pushes to main, or by hand.
+# Triggered by publish-repo after each repo update, or by hand. Not on push: a
+# push would build against the previously published repo.
 # Runs in a Debian 12 container so live-build matches the target release
 # (the Ubuntu runner's live-build is too old for these options).
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 jobs:
