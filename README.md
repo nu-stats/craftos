@@ -15,7 +15,7 @@ Zorin-style GNOME desktop with the nu-stats Craft apps preinstalled.
 | Craft suite and toolchain | `config/package-lists/craftos.list.chroot` |
 | `craftos-desktop` metapackage (Recommends every Craft app) | `packages/craftos-desktop/` |
 | Panel layout, theme, pinned apps | `config/includes.chroot/etc/dconf/` |
-| os-release branding, dconf compile, Flathub | `config/hooks/live/0100-branding.hook.chroot` |
+| os-release, login, installer and boot branding; dconf compile | `config/hooks/live/0100-branding.hook.chroot` |
 | App list and source repos | `apps/manifest.tsv` |
 | CI that builds the ISO | `.github/workflows/build-iso.yml` |
 
@@ -32,8 +32,34 @@ CraftOS is an independent project. It is **not affiliated with, sponsored by
 or endorsed by the ArtCraft team**. Please report CraftOS problems
 [here](https://github.com/nu-stats/craftos/issues), not to the app authors.
 
+The desktop is built from these open-source projects, used unmodified:
+
+| Project | What it does in CraftOS | License |
+|---|---|---|
+| [Dash to Panel](https://github.com/home-sweet-gnome/dash-to-panel) | Bottom taskbar | GPL-2.0 |
+| [ArcMenu](https://gitlab.com/arcmenu/ArcMenu) | Start menu | GPL-2.0 |
+| [Desktop Icons NG](https://gitlab.com/rastersoft/desktop-icons-ng) | Icons on the desktop | GPL-3.0 |
+| [Blur My Shell](https://github.com/aunetx/blur-my-shell) | Frosted-glass panel and overview (packaged by CraftOS from the upstream v46 release) | GPL-3.0 |
+| [AppIndicator support](https://github.com/ubuntu/gnome-shell-extension-appindicator) | Tray icons | GPL-2.0 |
+| [Arc theme](https://github.com/jnsh/arc-theme) | Window and app theme | GPL-3.0 |
+| [Papirus icons](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme) | Icon theme | GPL-3.0 |
+| [Calamares](https://calamares.io) | Installer | GPL-3.0 |
+
+CraftOS is not affiliated with any of these projects. Its own artwork
+(wallpapers, logos, boot and installer art) is original.
+
 CraftOS is built on [Debian](https://www.debian.org) and is not affiliated
 with the Debian project.
+
+## Apps: apt only
+
+All software comes from Debian and the CraftOS apt repo; there is no Flatpak
+or Docker in the default install. To add Flathub yourself:
+
+```bash
+sudo apt install flatpak gnome-software-plugin-flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+```
 
 ## Updates: apt repo, then ISO
 
@@ -86,10 +112,9 @@ publishes with whichever apps are ready.
 ## Not done yet
 
 - Craft apps need `.deb` release assets (statcraft is still Phase 0).
-- Name, wallpaper, Plymouth theme and icons are placeholders. Do not reuse
-  Zorin artwork or branding; CraftOS needs its own.
 - `.desktop` file names in the dconf favourites (`statcraft.desktop`, ...) must
   match what each app's `.deb` installs.
-- Arc Menu (the Windows-style start menu) is not in Debian 12; add it as a
-  Flatpak or a bundled extension if wanted.
-- Calamares branding, secure boot, and ARM64 builds.
+- Installed systems boot with Debian's plain GRUB menu; the CraftOS boot theme
+  is only on the ISO.
+- Move to Debian 13, Btrfs with snapshots, zram, fwupd, firewall (see the
+  Fedora-features plan); secure boot and ARM64 builds.

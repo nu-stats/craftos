@@ -58,5 +58,3 @@ for f in /usr/share/applications/*calamares*.desktop /usr/share/applications/*in
 done
 gtk-update-icon-cache -f /usr/share/icons/hicolor 2>/dev/null || true
 
-# Flathub for the software center.
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo || true

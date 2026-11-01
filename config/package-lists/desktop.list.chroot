@@ -29,9 +29,7 @@ gvfs-fuse
 
 # Software center
 gnome-software
-gnome-software-plugin-flatpak
 packagekit
-flatpak
 
 # Browser
 firefox-esr

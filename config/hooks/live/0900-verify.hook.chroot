@@ -34,6 +34,7 @@ chk "installer tools present"      'command -v unsquashfs >/dev/null && command 
 cal=$(dirname "$(ls /etc/calamares/branding/*/branding.desc /usr/share/calamares/branding/*/branding.desc 2>/dev/null | head -n1)")
 chk "installer art is CraftOS"     'cmp -s /usr/share/craftos/calamares/welcome.png "$cal/welcome.png"'
 chk "installer text is CraftOS"    '[ -f "$cal/show.qml" ] && ! grep -q "Debian GNU/Linux" "$cal/show.qml"'
+chk "no Flatpak or Docker"         '! dpkg -s flatpak >/dev/null 2>&1 && ! command -v docker >/dev/null'
 chk "LibreOffice absent"      '! dpkg -s libreoffice-core >/dev/null 2>&1'
 chk "no GNOME games pulled in"     '! dpkg -s gnome-games >/dev/null 2>&1 && ! dpkg -s aisleriot >/dev/null 2>&1'
 
