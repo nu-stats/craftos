@@ -36,6 +36,7 @@ firefox-esr
 zenity
 
 # Zorin-style layout, theme, fonts
+gnome-shell-extension-dashtodock
 gnome-shell-extension-dash-to-panel
 gnome-shell-extension-appindicator
 gnome-shell-extension-arc-menu

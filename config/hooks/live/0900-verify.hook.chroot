@@ -29,6 +29,7 @@ chk "installer shortcut trusted"    '! grep -q "XFCE\" ]; then" /usr/bin/add-cal
 chk "ArtCraft menu group"         '[ -f /etc/xdg/menus/applications-merged/craftos-artcraft.menu ] && [ -f /usr/share/desktop-directories/craftos-artcraft.directory ]'
 chk "installer removed after install" 'grep -q "^ *- .calamares.$" /etc/calamares/modules/packages.conf'
 chk "start-menu search patched"    'dpkg-divert --list | grep -q "arcmenu@arcmenu.com/search.js.*craftos-desktop" && grep -q _craftosAdaptProvider /usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/search.js'
+chk "macOS-style dock"            '[ -d /usr/share/gnome-shell/extensions/dash-to-dock@micxgx.gmail.com ] && [ -f /usr/share/gnome-shell/extensions/craftos-shell@craftos/extension.js ]'
 chk "desktop icons (DING)"         '[ -d /usr/share/gnome-shell/extensions/ding@rastersoft.com ]'
 chk "frosted glass (Blur My Shell)" '[ -f /usr/share/gnome-shell/extensions/blur-my-shell@aunetx/metadata.json ] && [ -f /usr/share/glib-2.0/schemas/org.gnome.shell.extensions.blur-my-shell.gschema.xml ]'
 chk "gnome-menus (folder names)"   'dpkg -s gnome-menus >/dev/null 2>&1'

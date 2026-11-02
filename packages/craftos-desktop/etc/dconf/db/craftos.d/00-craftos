@@ -1,8 +1,11 @@
-# Zorin-style defaults: bottom taskbar (Dash to Panel), Arc theme, Papirus
-# icons, ArtCraft office apps and Craft apps pinned. Launchers whose app is
-# not installed are ignored by GNOME.
+# macOS-style layout (like Zorin's macOS layout): top bar with the CraftOS
+# menu at the left, a centered floating dock at the bottom, window buttons on
+# the left. Arc theme, Papirus icons, ArtCraft office apps and Craft apps
+# pinned. Launchers whose app is not installed are ignored by GNOME.
+# Dash to Panel stays installed (and configured below) for anyone who prefers
+# a Windows-style taskbar; it is just not enabled by default.
 [org/gnome/shell]
-enabled-extensions=['dash-to-panel@jderose9.github.com', 'appindicatorsupport@rgcjonas.gmail.com', 'arcmenu@arcmenu.com', 'ding@rastersoft.com', 'blur-my-shell@aunetx']
+enabled-extensions=['dash-to-dock@micxgx.gmail.com', 'craftos-shell@craftos', 'appindicatorsupport@rgcjonas.gmail.com', 'arcmenu@arcmenu.com', 'ding@rastersoft.com', 'blur-my-shell@aunetx']
 favorite-apps=['firefox-esr.desktop', 'org.gnome.Nautilus.desktop', 'ai.storyteller.wordcraft.desktop', 'ai.storyteller.gridcraft.desktop', 'ai.storyteller.deckcraft.desktop', 'ai.storyteller.pdfcraft.desktop', 'statcraft.desktop', 'rcraft.desktop', 'qualcraft.desktop', 'org.gnome.Software.desktop']
 
 [org/gnome/desktop/interface]
@@ -21,8 +24,27 @@ picture-uri='file:///usr/share/backgrounds/craftos/contours-1921-faint-dark.jpg'
 picture-options='zoom'
 
 [org/gnome/desktop/wm/preferences]
-button-layout='appmenu:minimize,maximize,close'
+button-layout='close,minimize,maximize:appmenu'
 
+# Dock: centered at the bottom, floating (not full width), app grid
+# ("Launchpad") button first, dots under running apps, frosted by Blur My Shell.
+[org/gnome/shell/extensions/dash-to-dock]
+dock-position='BOTTOM'
+dock-fixed=true
+extend-height=false
+dash-max-icon-size=48
+custom-theme-shrink=true
+show-show-apps-button=true
+show-apps-at-top=true
+show-trash=false
+show-mounts=false
+running-indicator-style='DOTS'
+transparency-mode='FIXED'
+background-opacity=0.35
+click-action='minimize-or-previews'
+disable-overview-on-startup=true
+
+# Optional Windows-style taskbar (not enabled by default).
 [org/gnome/shell/extensions/dash-to-panel]
 panel-position='BOTTOM'
 panel-size=44
@@ -37,13 +59,13 @@ trans-panel-opacity=0.55
 dot-style-focused='METRO'
 dot-style-unfocused='DOTS'
 
-# Start menu: categories layout (like Zorin's) behind a CraftOS logo button,
-# opened with Super. Categories show the ArtCraft suite as its own group.
+# CraftOS menu at the top left (where the Apple menu sits), opened with
+# Super. Categories show the ArtCraft suite as its own group.
 [org/gnome/shell/extensions/arcmenu]
 menu-layout='Whisker'
 menu-button-icon='Custom_Icon'
 custom-menu-button-icon='/usr/share/craftos/start-button.svg'
-custom-menu-button-icon-size=28.0
+custom-menu-button-icon-size=20.0
 menu-hotkey='Super_L'
 position-in-panel='Left'
 # Pinned: the ArtCraft suite together first, then the basics and Craft apps.
@@ -58,10 +80,10 @@ folder-children=['Utilities', 'ArtCraft']
 name='ArtCraft'
 apps=['ai.storyteller.wordcraft.desktop', 'ai.storyteller.gridcraft.desktop', 'ai.storyteller.deckcraft.desktop', 'ai.storyteller.pdfcraft.desktop']
 
-# Desktop icons: Home and Trash, new icons bottom-right like Zorin.
+# Desktop icons: Home, Trash and drives down the top right, like a Mac.
 [org/gnome/shell/extensions/ding]
 show-home=true
 show-trash=true
 show-volumes=true
-start-corner='bottom-right'
+start-corner='top-right'
 icon-size='standard'
