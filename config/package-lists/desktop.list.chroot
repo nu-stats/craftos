@@ -101,6 +101,8 @@ user-setup
 locales
 keyboard-configuration
 tzdata
+# Keeps the clock right (apt rejects repo metadata from "the future").
+systemd-timesyncd
 plymouth
 
 # Basics
