@@ -29,7 +29,7 @@ for d in /etc/calamares/branding/*/ /usr/share/calamares/branding/*/; do
     [ -f "${d}branding.desc" ] || continue
     sed -i -E \
         -e '/^[[:space:]]*(productName|shortProductName|bootloaderEntryName):/ s/Debian GNU\/Linux|Debian/CraftOS/g' \
-        -e 's/^([[:space:]]*version:).*/\1             0.1 (Debian 12 based)/' \
+        -e 's/^([[:space:]]*version:).*/\1             0.1 (Debian 13 based)/' \
         -e 's/^([[:space:]]*shortVersion:).*/\1        0.1/' \
         -e 's/^([[:space:]]*versionedName:).*/\1       CraftOS 0.1/' \
         -e 's/^([[:space:]]*shortVersionedName:).*/\1  CraftOS 0.1/' \

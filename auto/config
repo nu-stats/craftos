@@ -1,9 +1,9 @@
 #!/bin/sh
-# live-build configuration for the CraftOS spin (Debian 12 "bookworm").
+# live-build configuration for the CraftOS spin (Debian 13 "trixie").
 set -e
 
 lb config noauto \
-    --distribution bookworm \
+    --distribution trixie \
     --architectures amd64 \
     --archive-areas "main contrib non-free-firmware" \
     --parent-archive-areas "main contrib non-free-firmware" \

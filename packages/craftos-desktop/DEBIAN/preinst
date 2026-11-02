@@ -1,20 +1,18 @@
 #!/bin/sh
-# Take over files that CraftOS replaces from other packages, so their updates
-# do not undo the change:
-#   /usr/lib/os-release (base-files): Debian point releases would otherwise
-#     rename the system back to "Debian". ID=debian and the version fields stay
-#     Debian's, so tools still see Debian.
-#   ArcMenu's search.js (gnome-shell-extension-arc-menu): patched so search
-#     works on GNOME Shell 43.9.
+# Take over /usr/lib/os-release from base-files, so Debian point releases do
+# not rename the system back to "Debian". ID=debian and the version fields stay
+# Debian's, so tools still see Debian.
 set -e
 
-divert() {
-    dpkg-divert --package craftos-desktop --add --rename --divert "$1.debian" "$1"
-}
-
 if [ "$1" = install ] || [ "$1" = upgrade ]; then
-    divert /usr/lib/os-release
-    divert /usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/search.js
+    dpkg-divert --package craftos-desktop --add --rename \
+        --divert /usr/lib/os-release.debian /usr/lib/os-release
+    # CraftOS on Debian 12 also replaced ArcMenu's search.js; ArcMenu on
+    # Debian 13 needs no patch, so hand it back if that diversion is left over.
+    arc=/usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/search.js
+    if dpkg-divert --list "$arc" | grep -q craftos-desktop; then
+        dpkg-divert --package craftos-desktop --remove --rename --divert "$arc.debian" "$arc"
+    fi
 fi
 
 exit 0

@@ -45,8 +45,11 @@ gir1.2-gmenu-3.0
 gnome-shell-extension-desktop-icons-ng
 # Quick-look previews for desktop icons (DING asks for it on Space).
 gnome-sushi
-# Not in Debian 12; packaged into the CraftOS repo by scripts/build-extension-debs.sh
+# Desktop Cube and wobbly windows are not in Debian 13; packaged into the
+# CraftOS repo by scripts/build-extension-debs.sh.
 gnome-shell-extension-blur-my-shell
+gnome-shell-extension-desktop-cube
+gnome-shell-extension-compiz-windows-effect
 arc-theme
 papirus-icon-theme
 adwaita-icon-theme

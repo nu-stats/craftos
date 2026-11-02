@@ -1,6 +1,6 @@
 Origin: CraftOS
 Label: CraftOS
-Codename: bookworm
+Codename: trixie
 Suite: stable
 Architectures: amd64 arm64 source
 Components: main

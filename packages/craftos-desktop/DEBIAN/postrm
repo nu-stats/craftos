@@ -1,15 +1,11 @@
 #!/bin/sh
-# Hand the diverted files back to their packages when craftos-desktop goes away.
+# Hand /usr/lib/os-release back to base-files when craftos-desktop goes away.
 set -e
-
-undivert() {
-    dpkg-divert --package craftos-desktop --remove --rename --divert "$1.debian" "$1"
-}
 
 case "$1" in
     remove|abort-install|disappear)
-        undivert /usr/lib/os-release
-        undivert /usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/search.js
+        dpkg-divert --package craftos-desktop --remove --rename \
+            --divert /usr/lib/os-release.debian /usr/lib/os-release
         ;;
 esac
 

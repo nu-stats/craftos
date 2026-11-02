@@ -1,6 +1,6 @@
 # CraftOS
 
-A Debian 12 spin (think a Fedora spin, not a new distro) that boots into a
+A Debian 13 ("trixie") spin (think a Fedora spin, not a new distro) that boots into a
 Zorin-style GNOME desktop with the nu-stats Craft apps preinstalled.
 
 > **Status: early preview.** CI builds the ISO and it boots in a VM; the
@@ -10,7 +10,7 @@ Zorin-style GNOME desktop with the nu-stats Craft apps preinstalled.
 
 | Piece | Where |
 |---|---|
-| live-build settings (Debian 12, hybrid ISO, GRUB + syslinux) | `auto/config` |
+| live-build settings (Debian 13, hybrid ISO, GRUB + syslinux) | `auto/config` |
 | Desktop packages (GNOME, Dash to Panel, Arc, Papirus, Calamares) | `config/package-lists/desktop.list.chroot` |
 | Craft suite and toolchain | `config/package-lists/craftos.list.chroot` |
 | `craftos-desktop` metapackage (Recommends every Craft app) | `packages/craftos-desktop/` |
@@ -39,7 +39,10 @@ The desktop is built from these open-source projects, used unmodified:
 | [Dash to Panel](https://github.com/home-sweet-gnome/dash-to-panel) | Bottom taskbar | GPL-2.0 |
 | [ArcMenu](https://gitlab.com/arcmenu/ArcMenu) | Start menu | GPL-2.0 |
 | [Desktop Icons NG](https://gitlab.com/rastersoft/desktop-icons-ng) | Icons on the desktop | GPL-3.0 |
-| [Blur My Shell](https://github.com/aunetx/blur-my-shell) | Frosted-glass panel and overview (packaged by CraftOS from the upstream v46 release) | GPL-3.0 |
+| [Blur My Shell](https://github.com/aunetx/blur-my-shell) | Frosted-glass top bar, dock and windows | GPL-3.0 |
+| [Dash to Dock](https://github.com/micheleg/dash-to-dock) | Mac-style dock | GPL-2.0 |
+| [Desktop Cube](https://github.com/Schneegans/Desktop-Cube) | 3D workspace cube (packaged by CraftOS, unmodified) | GPL-3.0 |
+| [Compiz Windows Effect](https://github.com/hermes83/compiz-windows-effect) | Wobbly ("jelly") windows (packaged by CraftOS, unmodified) | GPL-3.0 |
 | [AppIndicator support](https://github.com/ubuntu/gnome-shell-extension-appindicator) | Tray icons | GPL-2.0 |
 | [Arc theme](https://github.com/jnsh/arc-theme) | Window and app theme | GPL-3.0 |
 | [Papirus icons](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme) | Icon theme | GPL-3.0 |
@@ -73,7 +76,7 @@ app release -> publish-repo workflow -> signed apt repo (GitHub Pages)
 
 | Piece | Where |
 |---|---|
-| reprepro config (bookworm, main) | `repo/conf/distributions` |
+| reprepro config (trixie, main) | `repo/conf/distributions` |
 | Keyring + sources package | `packages/craftos-archive-keyring/` |
 | Build/fetch/publish scripts | `scripts/` |
 | Repo URL baked into the image and installs | `config/archives/craftos.list.chroot`, `craftos.sources` (assumed `https://nu-stats.github.io/craftos`) |
@@ -116,5 +119,5 @@ publishes with whichever apps are ready.
   match what each app's `.deb` installs.
 - Installed systems boot with Debian's plain GRUB menu; the CraftOS boot theme
   is only on the ISO.
-- Move to Debian 13, Btrfs with snapshots, zram, fwupd, firewall (see the
+- Btrfs with snapshots, zram, fwupd, firewall (see the
   Fedora-features plan); secure boot and ARM64 builds.

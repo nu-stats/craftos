@@ -1,16 +1,19 @@
 # Light, macOS-style layout (like Zorin's macOS layout): top bar with the CraftOS
 # menu at the left, a centered floating dock at the bottom, window buttons on
-# the left. Arc theme, Papirus icons, ArtCraft office apps and Craft apps
+# the left; workspace cube and wobbly windows. Adwaita light with green
+# accent, Papirus icons, ArtCraft office apps and Craft apps
 # pinned. Launchers whose app is not installed are ignored by GNOME.
 # Dash to Panel stays installed (and configured below) for anyone who prefers
 # a Windows-style taskbar; it is just not enabled by default.
 [org/gnome/shell]
-enabled-extensions=['dash-to-dock@micxgx.gmail.com', 'craftos-shell@craftos', 'appindicatorsupport@rgcjonas.gmail.com', 'arcmenu@arcmenu.com', 'ding@rastersoft.com', 'blur-my-shell@aunetx']
+enabled-extensions=['dash-to-dock@micxgx.gmail.com', 'craftos-shell@craftos', 'appindicatorsupport@rgcjonas.gmail.com', 'arcmenu@arcmenu.com', 'ding@rastersoft.com', 'blur-my-shell@aunetx', 'desktop-cube@schneegans.github.com', 'compiz-windows-effect@hermes83.github.com']
 favorite-apps=['firefox-esr.desktop', 'org.gnome.Nautilus.desktop', 'ai.storyteller.wordcraft.desktop', 'ai.storyteller.gridcraft.desktop', 'ai.storyteller.deckcraft.desktop', 'ai.storyteller.pdfcraft.desktop', 'statcraft.desktop', 'rcraft.desktop', 'qualcraft.desktop', 'org.gnome.Software.desktop']
 
 [org/gnome/desktop/interface]
 gtk-theme='Adwaita'
 color-scheme='prefer-light'
+# GNOME 48 native accent, nearest to the CraftOS green.
+accent-color='green'
 icon-theme='Papirus'
 font-name='Inter 10'
 clock-show-date=true
@@ -46,23 +49,35 @@ custom-theme-running-dots-border-color='#1d1d1f'
 click-action='minimize-or-previews'
 disable-overview-on-startup=true
 
-# Frosted glass (Blur My Shell): white frost on the top bar and dock for the
-# light Mac-style look; the overview keeps GNOME's darker blur.
+# Frosted glass (Blur My Shell 67, effect pipelines): white frost on the top
+# bar, dock and frosted windows for the light Mac-style look; the overview
+# keeps the darker default blur.
+[org/gnome/shell/extensions/blur-my-shell]
+pipelines={'pipeline_default': {'name': <'Default'>, 'effects': <[<{'type': <'native_static_gaussian_blur'>, 'id': <'effect_000000000000'>, 'params': <{'radius': <30>, 'brightness': <0.6>}>}>]>}, 'pipeline_default_rounded': {'name': <'Default rounded'>, 'effects': <[<{'type': <'native_static_gaussian_blur'>, 'id': <'effect_000000000001'>, 'params': <{'radius': <30>, 'brightness': <0.6>}>}>, <{'type': <'corner'>, 'id': <'effect_000000000002'>, 'params': <{'radius': <24>}>}>]>}, 'pipeline_craftos_glass': {'name': <'CraftOS glass'>, 'effects': <[<{'type': <'native_static_gaussian_blur'>, 'id': <'effect_craftos_000001'>, 'params': <{'radius': <30>, 'brightness': <1.0>}>}>, <{'type': <'color'>, 'id': <'effect_craftos_000002'>, 'params': <{'color': <(1.0, 1.0, 1.0, 0.55)>}>}>]>}}
+
 [org/gnome/shell/extensions/blur-my-shell/panel]
 blur=true
-customize=true
-sigma=30
-brightness=1.0
-color=(1.0, 1.0, 1.0, 0.6)
+pipeline='pipeline_craftos_glass'
+static-blur=true
 override-background=true
 
 [org/gnome/shell/extensions/blur-my-shell/dash-to-dock]
 blur=true
+pipeline='pipeline_craftos_glass'
+static-blur=true
+override-background=true
+
+# Frosted windows: Files and Terminal are slightly see-through with the
+# desktop blurred behind them (others stay solid; text apps stay readable).
+[org/gnome/shell/extensions/blur-my-shell/applications]
+blur=true
 customize=true
 sigma=30
 brightness=1.0
-color=(1.0, 1.0, 1.0, 0.45)
-override-background=true
+opacity=230
+dynamic-opacity=true
+enable-all=false
+whitelist=['org.gnome.Nautilus', 'Org.gnome.Nautilus', 'gnome-terminal-server', 'Gnome-terminal']
 
 # Optional Windows-style taskbar (not enabled by default).
 [org/gnome/shell/extensions/dash-to-panel]
@@ -86,11 +101,10 @@ menu-layout='Whisker'
 menu-button-icon='Custom_Icon'
 custom-menu-button-icon='/usr/share/craftos/start-button.svg'
 custom-menu-button-icon-size=20.0
-menu-hotkey='Super_L'
+arcmenu-hotkey=['Super_L']
 position-in-panel='Left'
 # Pinned: the ArtCraft suite together first, then the basics and Craft apps.
-# Triples of name, icon ('' = the app's own), desktop file.
-pinned-app-list=['WordCraft', '', 'ai.storyteller.wordcraft.desktop', 'GridCraft', '', 'ai.storyteller.gridcraft.desktop', 'DeckCraft', '', 'ai.storyteller.deckcraft.desktop', 'PdfCraft', '', 'ai.storyteller.pdfcraft.desktop', 'Firefox ESR', '', 'firefox-esr.desktop', 'Files', '', 'org.gnome.Nautilus.desktop', 'Terminal', '', 'org.gnome.Terminal.desktop', 'Software', '', 'org.gnome.Software.desktop', 'StatCraft', '', 'statcraft.desktop', 'RCraft', '', 'rcraft.desktop', 'QualCraft', '', 'qualcraft.desktop']
+pinned-apps=[{'id': 'ai.storyteller.wordcraft.desktop'}, {'id': 'ai.storyteller.gridcraft.desktop'}, {'id': 'ai.storyteller.deckcraft.desktop'}, {'id': 'ai.storyteller.pdfcraft.desktop'}, {'id': 'firefox-esr.desktop'}, {'id': 'org.gnome.Nautilus.desktop'}, {'id': 'org.gnome.Terminal.desktop'}, {'id': 'org.gnome.Software.desktop'}, {'id': 'statcraft.desktop'}, {'id': 'rcraft.desktop'}, {'id': 'qualcraft.desktop'}]
 
 # App grid: the ArtCraft suite in one folder, next to GNOME's Utilities.
 [org/gnome/desktop/app-folders]
@@ -109,3 +123,6 @@ start-corner='top-right'
 icon-size='standard'
 # Dark labels: the default wallpaper is light.
 dark-text-in-labels=true
+
+# Desktop Cube and wobbly ("jelly") windows: upstream defaults. Switch
+# workspaces with Ctrl+Alt+Left/Right (or drag in the overview) to see the cube.

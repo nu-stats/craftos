@@ -11,7 +11,7 @@ mkdir -p repo/public
 set -- repo/incoming/*.deb
 [ -e "$1" ] || { echo "no .deb files in repo/incoming/" >&2; exit 1; }
 
-reprepro --basedir repo --outdir ./repo/public includedeb bookworm "$@"
+reprepro --basedir repo --outdir ./repo/public includedeb trixie "$@"
 # Publish the public key next to the repo for manual setup.
 cp config/archives/craftos.key.chroot repo/public/craftos.key
 echo "repo ready in repo/public"
