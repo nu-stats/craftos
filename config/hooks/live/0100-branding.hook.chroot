@@ -3,7 +3,12 @@
 set -e
 
 # /usr/lib/os-release (NAME="CraftOS", ID=debian) comes from craftos-desktop,
-# which diverts base-files' copy so Debian updates do not undo it.
+# which diverts base-files' copy so Debian updates do not undo it. Debian 13's
+# live-build replaces /etc/os-release with a frozen copy of Debian's (taken
+# before any package is installed); the installer would copy that to disk, so
+# point it back at the CraftOS file.
+rm -f /etc/os-release
+ln -s ../usr/lib/os-release /etc/os-release
 echo "CraftOS 0.1" > /etc/craftos-release
 printf 'CraftOS 0.1 \\n \\l\n\n' > /etc/issue
 printf 'CraftOS 0.1\n' > /etc/issue.net

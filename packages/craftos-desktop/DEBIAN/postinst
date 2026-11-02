@@ -7,6 +7,15 @@ if [ "$1" = configure ]; then
     # Compile /etc/dconf/db/craftos.d into the system defaults database.
     dconf update
 
+    # Systems installed from the first Debian 13 ISOs got a frozen copy of
+    # Debian's os-release at /etc/os-release (from live-build); point it back
+    # at the CraftOS file. A link, or a file someone wrote, is left alone.
+    if [ -f /etc/os-release ] && [ ! -L /etc/os-release ] &&
+       grep -q '^IMAGE_ID=live' /etc/os-release; then
+        rm -f /etc/os-release
+        ln -s ../usr/lib/os-release /etc/os-release
+    fi
+
     # Login screen logo. Debian's GDM reads this file (compiled when gdm
     # starts), not a system dconf database.
     greeter=/etc/gdm3/greeter.dconf-defaults
