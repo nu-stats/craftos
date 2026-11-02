@@ -190,3 +190,31 @@
   border: none;
   box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.16);
 }
+
+/* Workspace switcher pop-up (Ctrl+Alt+Left/Right): light, like the menus. */
+.workspace-switcher-container {
+  background-color: rgba(250, 250, 252, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.18);
+}
+.ws-switcher-indicator {
+  background-color: rgba(29, 29, 31, 0.3);
+}
+.ws-switcher-indicator:active {
+  background-color: #1d1d1f;
+}
+
+/* Frosted Glass menus: the background colour (alpha from the glass opacity
+   slider) is set inline by menus.js over a live blur; a bright hairline edge
+   keeps it reading as glass. */
+.popup-menu-content.craftos-frosted,
+.craftos-frosted {
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.20);
+}
+
+/* Dock with the liquid glass switched off: plain light background. */
+#dashtodockContainer .dash-background.craftos-plain-dock {
+  background-color: rgba(250, 250, 252, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.10);
+}

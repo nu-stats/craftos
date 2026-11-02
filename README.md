@@ -1,7 +1,13 @@
 # CraftOS
 
 A Debian 13 ("trixie") spin (think a Fedora spin, not a new distro) that boots into a
-Zorin-style GNOME desktop with the nu-stats Craft apps preinstalled.
+light, macOS-style GNOME desktop with the nu-stats Craft apps preinstalled.
+
+**Frosted Glass**, in the spirit of Pop!_OS COSMIC's, is on by default: app
+windows, the top bar and every menu and pop-up are see-through, blurred glass,
+and the dock is a lens-like "liquid glass" slab. Open **Frosted Glass** from
+the menu to switch each on or off and set frost thickness and glass opacity.
+Ctrl+Alt+Up opens the overview; Ctrl+Alt+Left/Right turn the workspace cube.
 
 > **Status: early preview.** CI builds the ISO and it boots in a VM; the
 > installer is being tested. Expect rough edges.
@@ -39,7 +45,7 @@ The desktop is built from these open-source projects, used unmodified:
 | [Dash to Panel](https://github.com/home-sweet-gnome/dash-to-panel) | Bottom taskbar | GPL-2.0 |
 | [ArcMenu](https://gitlab.com/arcmenu/ArcMenu) | Start menu | GPL-2.0 |
 | [Desktop Icons NG](https://gitlab.com/rastersoft/desktop-icons-ng) | Icons on the desktop | GPL-3.0 |
-| [Blur My Shell](https://github.com/aunetx/blur-my-shell) | Frosted-glass top bar, dock and windows | GPL-3.0 |
+| [Blur My Shell](https://github.com/aunetx/blur-my-shell) | Frosted-glass windows and top bar (the dock and menu glass are CraftOS's own) | GPL-3.0 |
 | [Dash to Dock](https://github.com/micheleg/dash-to-dock) | Mac-style dock | GPL-2.0 |
 | [Desktop Cube](https://github.com/Schneegans/Desktop-Cube) | 3D workspace cube (packaged by CraftOS, unmodified) | GPL-3.0 |
 | [Compiz Windows Effect](https://github.com/hermes83/compiz-windows-effect) | Wobbly ("jelly") windows (packaged by CraftOS, unmodified) | GPL-3.0 |

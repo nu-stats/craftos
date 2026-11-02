@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CraftOS Frosted Glass (craftos-shell@craftos), in the spirit of
+     Pop!_OS COSMIC's Frosted Glass: per-surface switches plus frost
+     thickness and glass opacity. Window and top-bar blur are drawn by Blur
+     My Shell; craftos-shell keeps its settings in step with these keys. -->
+<schemalist>
+  <schema id="org.gnome.shell.extensions.craftos-shell" path="/org/gnome/shell/extensions/craftos-shell/">
+    <key name="glass-windows" type="b">
+      <default>true</default>
+      <summary>Frosted glass on application windows</summary>
+    </key>
+    <key name="glass-panel" type="b">
+      <default>true</default>
+      <summary>Frosted glass on the top bar</summary>
+    </key>
+    <key name="glass-dock" type="b">
+      <default>true</default>
+      <summary>Liquid glass on the dock</summary>
+    </key>
+    <key name="glass-menus" type="b">
+      <default>true</default>
+      <summary>Frosted glass on menus and pop-ups</summary>
+    </key>
+    <key name="frost" type="i">
+      <range min="0" max="100"/>
+      <default>50</default>
+      <summary>Frost thickness (how strongly what is behind is blurred)</summary>
+    </key>
+    <key name="opacity" type="i">
+      <range min="40" max="100"/>
+      <default>80</default>
+      <summary>Glass opacity (100 is solid)</summary>
+    </key>
+  </schema>
+</schemalist>

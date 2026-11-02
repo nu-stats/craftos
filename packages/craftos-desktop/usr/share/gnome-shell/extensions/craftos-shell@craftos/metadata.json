@@ -1,7 +1,8 @@
 {
   "uuid": "craftos-shell@craftos",
   "name": "CraftOS Shell",
-  "description": "CraftOS look for GNOME Shell: liquid-glass dock, light top bar and menus, and the CraftOS menu alone at the top left (Activities hidden).",
+  "description": "CraftOS look for GNOME Shell: Frosted Glass (liquid-glass dock, frosted windows, top bar and menus, with switches and sliders like Pop!_OS COSMIC), light top bar and menus, and the CraftOS menu alone at the top left (Activities hidden).",
   "shell-version": ["48"],
+  "settings-schema": "org.gnome.shell.extensions.craftos-shell",
   "url": "https://github.com/nu-stats/craftos"
 }

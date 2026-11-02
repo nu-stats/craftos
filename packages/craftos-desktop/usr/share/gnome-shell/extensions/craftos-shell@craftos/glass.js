@@ -5,8 +5,9 @@
 // colours slightly at the rim, brightens it, and draws a specular edge
 // highlight that turns toward the pointer.
 //
-// Limits: it refracts the wallpaper, not the windows behind the dock (like
-// Blur My Shell's static mode), and only the dock gets it.
+// The dock is fixed, so windows never sit behind it and the wallpaper is all
+// it needs to refract. Blur radius and milkiness follow the Frosted Glass
+// sliders (frostRadius / glassAlpha, shared with menus.js and windows.js).
 import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
@@ -87,6 +88,16 @@ void main(void) {
 // Uniforms must be floats; whole numbers from JS would be sent as ints.
 const f = v => v + 1e-4;
 
+// The Frosted Glass sliders, mapped to blur radius (px) and milkiness, shared
+// by the dock, menus and windows so they all match.
+export function frostRadius(settings) {
+    return Math.round(4 + settings.get_int('frost') * 0.56);
+}
+
+export function glassAlpha(settings) {
+    return settings.get_int('opacity') / 100;
+}
+
 const LiquidGlassEffect = GObject.registerClass(
 class LiquidGlassEffect extends Clutter.ShaderEffect {
     _init() {
@@ -110,6 +121,11 @@ class LiquidGlassEffect extends Clutter.ShaderEffect {
         this.set_uniform_value('light_y', f(y));
         this.queue_repaint();
     }
+
+    setTint(tint) {
+        this.set_uniform_value('tint', f(tint));
+        this.queue_repaint();
+    }
 });
 
 // The slab takes no room in the dock's layout (otherwise the dock would grow
@@ -128,7 +144,7 @@ class GlassSlab extends St.Widget {
 // One glass slab behind one dock's icons. It sits in Dash to Dock's dash just
 // above the (transparent) .dash-background, which keeps its shadow underneath.
 class DockGlass {
-    constructor(container) {
+    constructor(container, look) {
         this._container = container;
         const dashBox = container._slider?.get_child();
         this._dash = dashBox?.get_children().find(c => c.get_name() === 'dash');
@@ -148,13 +164,12 @@ class DockGlass {
             monitorIndex: this._monitor.index,
             controlPosition: false,
         });
-        const scale = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-        this._wallpaper.add_effect(new Shell.BlurEffect({
-            mode: Shell.BlurMode.ACTOR, radius: 18 * scale, brightness: 1.0,
-        }));
+        this._blur = new Shell.BlurEffect({mode: Shell.BlurMode.ACTOR, brightness: 1.0});
+        this._wallpaper.add_effect(this._blur);
         this.actor.add_child(this._wallpaper);
         this._glass = new LiquidGlassEffect();
         this.actor.add_effect(this._glass);
+        this.setLook(look);
         this._dash.insert_child_above(this.actor, this._dashBackground);
 
         this._ids = [
@@ -171,6 +186,15 @@ class DockGlass {
             this._updateLight();
             return GLib.SOURCE_CONTINUE;
         });
+    }
+
+    // look: {radius, alpha} from the Frosted Glass sliders.
+    setLook(look) {
+        const scale = St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        this._blur.radius = Math.round(look.radius * 0.6) * scale;
+        // Opacity 40 -> nearly clear, 80 (default) -> 0.22, 100 -> solid white.
+        const a = look.alpha;
+        this._glass.setTint(a >= 0.8 ? 0.22 + (a - 0.8) * 3.9 : 0.22 - (0.8 - a) * 0.5);
     }
 
     _queueUpdate() {
@@ -229,19 +253,33 @@ class DockGlass {
 }
 
 // Finds Dash to Dock's docks (now and when they are recreated) and gives each
-// a glass slab. Dash to Dock's own background is made transparent in the
-// CraftOS dconf defaults so the glass shows through.
+// a glass slab while the Frosted Glass "dock" switch is on. Dash to Dock's own
+// background is transparent (CraftOS dconf defaults); with the glass off the
+// dock gets a plain light background instead.
 export class LiquidGlass {
+    constructor(settings) {
+        this._settings = settings;
+    }
+
     enable() {
         this._docks = new Map();
         this._childAddedId = Main.uiGroup.connect('child-added', (_, actor) => this._try(actor));
         this._monitorsId = Main.layoutManager.connect('monitors-changed', () => this._rebuild());
+        this._settingsIds = [
+            this._settings.connect('changed::glass-dock', () => this._rebuild()),
+            this._settings.connect('changed::frost', () => this._restyle()),
+            this._settings.connect('changed::opacity', () => this._restyle()),
+        ];
         // Dash to Dock may start after this extension.
         this._retry = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 2, () => {
             this._scan();
             return GLib.SOURCE_CONTINUE;
         });
         this._scan();
+    }
+
+    _look() {
+        return {radius: frostRadius(this._settings), alpha: glassAlpha(this._settings)};
     }
 
     _scan() {
@@ -252,18 +290,44 @@ export class LiquidGlass {
     _try(actor) {
         if (actor.get_name?.() !== 'dashtodockContainer' || this._docks.has(actor))
             return;
+        if (!this._settings.get_boolean('glass-dock')) {
+            this._plain(actor, true);
+            return;
+        }
         try {
-            this._docks.set(actor, new DockGlass(actor));
-            actor.connect('destroy', () => this._docks.delete(actor));
+            this._docks.set(actor, new DockGlass(actor, this._look()));
+            actor.connect('destroy', () => this._docks?.delete(actor));
         } catch (e) {
             // Not laid out yet; the next scan tries again.
         }
+    }
+
+    // Plain light dock background when the glass is switched off.
+    _plain(container, on) {
+        const bg = container._slider?.get_child()?.get_children()
+            .find(c => c.get_name() === 'dash')?.get_children()
+            .find(c => c.has_style_class_name?.('dash-background'));
+        if (!bg)
+            return;
+        if (on && !bg.has_style_class_name('craftos-plain-dock'))
+            bg.add_style_class_name('craftos-plain-dock');
+        else if (!on)
+            bg.remove_style_class_name('craftos-plain-dock');
+    }
+
+    _restyle() {
+        for (const glass of this._docks.values())
+            glass.setLook(this._look());
     }
 
     _rebuild() {
         for (const glass of this._docks.values())
             glass.destroy();
         this._docks.clear();
+        for (const child of Main.uiGroup.get_children()) {
+            if (child.get_name?.() === 'dashtodockContainer')
+                this._plain(child, false);
+        }
         this._scan();
     }
 
@@ -272,8 +336,14 @@ export class LiquidGlass {
             GLib.source_remove(this._retry);
         Main.uiGroup.disconnect(this._childAddedId);
         Main.layoutManager.disconnect(this._monitorsId);
+        for (const id of this._settingsIds)
+            this._settings.disconnect(id);
         for (const glass of this._docks.values())
             glass.destroy();
+        for (const child of Main.uiGroup.get_children()) {
+            if (child.get_name?.() === 'dashtodockContainer')
+                this._plain(child, false);
+        }
         this._docks = null;
     }
 }

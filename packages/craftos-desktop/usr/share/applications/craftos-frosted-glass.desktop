@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Frosted Glass
+Comment=Choose where CraftOS uses frosted glass and how thick and see-through it is
+Keywords=blur;glass;transparency;frosted;liquid;appearance;
+Exec=gnome-extensions prefs craftos-shell@craftos
+Icon=preferences-desktop-appearance
+Categories=Settings;DesktopSettings;GTK;
+OnlyShowIn=GNOME;

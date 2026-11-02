@@ -31,6 +31,8 @@ chk "workspace cube"              '[ -f /usr/share/gnome-shell/extensions/deskto
 chk "wobbly windows"              '[ -f /usr/share/gnome-shell/extensions/compiz-windows-effect@hermes83.github.com/metadata.json ]'
 chk "extensions target GNOME 48"  'dpkg-query -W gnome-shell | grep -q "[[:space:]]48."'
 chk "liquid glass dock"           '[ -f /usr/share/gnome-shell/extensions/craftos-shell@craftos/glass.js ]'
+chk "frosted menus and windows"   '[ -f /usr/share/gnome-shell/extensions/craftos-shell@craftos/menus.js ] && [ -f /usr/share/gnome-shell/extensions/craftos-shell@craftos/windows.js ]'
+chk "Frosted Glass settings"      '[ -f /usr/share/glib-2.0/schemas/org.gnome.shell.extensions.craftos-shell.gschema.xml ] && [ -f /usr/share/applications/craftos-frosted-glass.desktop ] && dpkg -s gnome-shell-extension-prefs >/dev/null 2>&1'
 chk "light shell theme"           '[ -s /usr/share/gnome-shell/extensions/craftos-shell@craftos/stylesheet.css ] && [ -f /usr/share/backgrounds/craftos/contours-1921-faint-paper.jpg ]'
 chk "macOS-style dock"            '[ -d /usr/share/gnome-shell/extensions/dash-to-dock@micxgx.gmail.com ] && [ -f /usr/share/gnome-shell/extensions/craftos-shell@craftos/extension.js ]'
 chk "desktop icons (DING)"         '[ -d /usr/share/gnome-shell/extensions/ding@rastersoft.com ]'

@@ -9,6 +9,12 @@
 enabled-extensions=['dash-to-dock@micxgx.gmail.com', 'craftos-shell@craftos', 'appindicatorsupport@rgcjonas.gmail.com', 'arcmenu@arcmenu.com', 'ding@rastersoft.com', 'blur-my-shell@aunetx', 'desktop-cube@schneegans.github.com', 'compiz-windows-effect@hermes83.github.com']
 favorite-apps=['firefox-esr.desktop', 'org.gnome.Nautilus.desktop', 'ai.storyteller.wordcraft.desktop', 'ai.storyteller.gridcraft.desktop', 'ai.storyteller.deckcraft.desktop', 'ai.storyteller.pdfcraft.desktop', 'statcraft.desktop', 'rcraft.desktop', 'qualcraft.desktop', 'org.gnome.Software.desktop']
 
+# Super opens the CraftOS menu, so the overview (Mission Control) gets the
+# macOS-style Ctrl+Up, with Alt so text editors keep Ctrl+Up; it pairs with
+# Ctrl+Alt+Left/Right, which turn the workspace cube.
+[org/gnome/shell/keybindings]
+toggle-overview=['<Control><Alt>Up']
+
 [org/gnome/desktop/interface]
 gtk-theme='Adwaita'
 color-scheme='prefer-light'
@@ -71,12 +77,19 @@ blur=false
 [org/gnome/shell/extensions/blur-my-shell/applications]
 blur=true
 customize=true
-sigma=30
+sigma=32
 brightness=1.0
-opacity=230
-dynamic-opacity=true
-enable-all=false
-whitelist=['org.gnome.Nautilus', 'Org.gnome.Nautilus', 'gnome-terminal-server', 'Gnome-terminal']
+opacity=204
+# Focused windows stay frosted too (true would make the active one opaque).
+dynamic-opacity=false
+# Frosted Glass on every window (craftos-shell keeps these in step with its
+# Settings > Frosted Glass sliders), except where see-through hurts. The
+# desktop icons layer (DING) is a full-screen window with class 'gjs'.
+enable-all=true
+blacklist=['Plank', 'com.desktop.ding', 'com.rastersoft.ding', 'ding', 'gjs', 'Conky', 'mpv', 'vlc', 'org.gnome.Totem', 'org.gnome.Showtime', 'steam', 'Steam', 'gnome-shell']
+# Only used if enable-all is turned off. Wayland reports app ids
+# (org.gnome.Terminal); X11 apps report class names.
+whitelist=['org.gnome.Nautilus', 'Org.gnome.Nautilus', 'org.gnome.Terminal', 'gnome-terminal-server', 'Gnome-terminal']
 
 # Optional Windows-style taskbar (not enabled by default).
 [org/gnome/shell/extensions/dash-to-panel]
