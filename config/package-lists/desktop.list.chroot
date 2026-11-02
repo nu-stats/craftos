@@ -87,6 +87,9 @@ firmware-linux
 # Installer
 calamares
 calamares-settings-debian
+# Word list for the installer's password check (libpwquality); without it every
+# password is rejected with "error loading dictionary".
+cracklib-runtime
 # Calamares only Recommends these (or not at all), but unpackfs and the EFI
 # partition step fail without them.
 squashfs-tools
