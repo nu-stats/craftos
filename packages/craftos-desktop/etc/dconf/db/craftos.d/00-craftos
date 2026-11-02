@@ -37,9 +37,10 @@ trans-panel-opacity=0.55
 dot-style-focused='METRO'
 dot-style-unfocused='DOTS'
 
-# Start menu: Windows-style layout behind a CraftOS logo button, opened with Super.
+# Start menu: categories layout (like Zorin's) behind a CraftOS logo button,
+# opened with Super. Categories show the ArtCraft suite as its own group.
 [org/gnome/shell/extensions/arcmenu]
-menu-layout='Windows'
+menu-layout='Whisker'
 menu-button-icon='Custom_Icon'
 custom-menu-button-icon='/usr/share/craftos/start-button.svg'
 custom-menu-button-icon-size=28.0

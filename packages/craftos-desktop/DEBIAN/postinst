@@ -13,6 +13,28 @@ if [ "$1" = configure ]; then
     if [ -f "$greeter" ]; then
         sed -i "s#^logo=.*#logo='/usr/share/craftos/login-logo.png'#" "$greeter"
     fi
+
+    # Account pictures: desktop-base gives every new account the Debian swirl
+    # (/etc/skel/.face). Stop that, and reset accounts whose picture is still
+    # exactly that file (matched by dpkg's checksum) so GNOME shows its
+    # neutral avatar. Pictures anyone chose are never touched.
+    swirl=$(dpkg-query -W -f='${Conffiles}\n' desktop-base 2>/dev/null \
+        | awk '$1 == "/etc/skel/.face" { print $2 }')
+    rm -f /etc/skel/.face /etc/skel/.face.icon
+    if [ -n "$swirl" ]; then
+        getent passwd | while IFS=: read -r user _ uid _ _ home _; do
+            [ "$uid" -ge 1000 ] 2>/dev/null && [ "$uid" -lt 60000 ] || continue
+            if [ -f "$home/.face" ] && [ "$(md5sum < "$home/.face" | cut -d' ' -f1)" = "$swirl" ]; then
+                rm -f "$home/.face"
+                [ -L "$home/.face.icon" ] && rm -f "$home/.face.icon"
+            fi
+            icon=/var/lib/AccountsService/icons/$user
+            if [ -f "$icon" ] && [ "$(md5sum < "$icon" | cut -d' ' -f1)" = "$swirl" ]; then
+                rm -f "$icon"
+                sed -i '/^Icon=/d' "/var/lib/AccountsService/users/$user" 2>/dev/null || true
+            fi
+        done
+    fi
 fi
 
 exit 0
