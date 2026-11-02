@@ -182,3 +182,10 @@
 #dashtodockContainer .show-apps StIcon {
   color: #1d1d1f;
 }
+
+/* Dock: no flat background or outline; the liquid glass slab is the dock. */
+#dashtodockContainer .dash-background {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}

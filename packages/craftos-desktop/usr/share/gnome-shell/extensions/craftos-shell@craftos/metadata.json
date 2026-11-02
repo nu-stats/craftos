@@ -1,7 +1,7 @@
 {
   "uuid": "craftos-shell@craftos",
   "name": "CraftOS Shell",
-  "description": "Small CraftOS layout tweaks for GNOME Shell: hides the Activities button so the CraftOS menu sits alone at the top left.",
+  "description": "CraftOS look for GNOME Shell: liquid-glass dock, light top bar and menus, and the CraftOS menu alone at the top left (Activities hidden).",
   "shell-version": ["48"],
   "url": "https://github.com/nu-stats/craftos"
 }

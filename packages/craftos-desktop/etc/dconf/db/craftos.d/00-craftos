@@ -47,6 +47,9 @@ custom-theme-customize-running-dots=true
 custom-theme-running-dots-color='#1d1d1f'
 custom-theme-running-dots-border-color='#1d1d1f'
 click-action='minimize-or-previews'
+# Clear dock background: the CraftOS liquid glass (craftos-shell) draws it.
+transparency-mode='FIXED'
+background-opacity=0.0
 disable-overview-on-startup=true
 
 # Frosted glass (Blur My Shell 67, effect pipelines): white frost on the top
@@ -62,13 +65,9 @@ static-blur=true
 override-background=true
 
 [org/gnome/shell/extensions/blur-my-shell/dash-to-dock]
-blur=true
-pipeline='pipeline_craftos_glass'
-static-blur=true
-override-background=true
+# Off: the dock uses the CraftOS liquid glass instead.
+blur=false
 
-# Frosted windows: Files and Terminal are slightly see-through with the
-# desktop blurred behind them (others stay solid; text apps stay readable).
 [org/gnome/shell/extensions/blur-my-shell/applications]
 blur=true
 customize=true
