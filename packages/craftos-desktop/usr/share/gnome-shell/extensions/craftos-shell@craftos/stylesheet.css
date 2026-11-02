@@ -183,9 +183,10 @@
   color: #1d1d1f;
 }
 
-/* Dock: no flat background or outline; the liquid glass slab is the dock. */
+/* Dock: no flat background or outline; the liquid glass slab is the dock.
+   A soft shadow lifts it off light wallpapers. */
 #dashtodockContainer .dash-background {
   background-color: transparent;
   border: none;
-  box-shadow: none;
+  box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.16);
 }

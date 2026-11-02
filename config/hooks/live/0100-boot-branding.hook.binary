@@ -1,6 +1,7 @@
 #!/bin/sh
 # Binary stage: replace the stock Debian boot-menu artwork and labels. The GRUB
-# theme reads /isolinux/splash800x600.png and syslinux reads /isolinux/splash.png.
+# theme reads boot/grub/splash.png (Debian 13 live-build; older releases used
+# /isolinux/splash800x600.png) and syslinux reads /isolinux/splash.png.
 # Locate the build tree explicitly (the hook's working directory is not
 # guaranteed) and fail the build if the branding did not land, so a green run
 # means the boot menu really is CraftOS.
@@ -20,10 +21,11 @@ cfg="$root/config/branding"
 
 cp "$cfg/splash-640x480.png" "$bin/isolinux/splash.png"
 cp "$cfg/splash-800x600.png" "$bin/isolinux/splash800x600.png"
+cp "$cfg/splash-800x600.png" "$bin/boot/grub/splash.png"
 sed -i 's/^menu title .*/menu title CraftOS/' "$bin/isolinux/menu.cfg"
 sed -i 's/Live system/CraftOS live/' "$bin/isolinux/live.cfg" "$bin/boot/grub/grub.cfg"
 
-cmp "$cfg/splash-800x600.png" "$bin/isolinux/splash800x600.png"
+cmp "$cfg/splash-800x600.png" "$bin/boot/grub/splash.png"
 grep -q "CraftOS live" "$bin/boot/grub/grub.cfg" || { echo "boot-branding: grub.cfg not rebranded" >&2; exit 1; }
 grep -q "CraftOS live" "$bin/isolinux/live.cfg"  || { echo "boot-branding: live.cfg not rebranded" >&2; exit 1; }
 echo "boot-branding: ok"

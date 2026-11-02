@@ -48,22 +48,35 @@ void main(void) {
     float bend = t * t * t;
     vec2 off = -n * bend * bezel * 0.85;
 
-    // Slight colour split at the rim (dispersion).
-    vec2 uv_r = clamp((p + off * 1.10 + half_size) / size, 0.0, 1.0);
+    // Colour split at the rim (dispersion).
+    vec2 uv_r = clamp((p + off * 1.18 + half_size) / size, 0.0, 1.0);
     vec2 uv_g = clamp((p + off + half_size) / size, 0.0, 1.0);
-    vec2 uv_b = clamp((p + off * 0.90 + half_size) / size, 0.0, 1.0);
+    vec2 uv_b = clamp((p + off * 0.82 + half_size) / size, 0.0, 1.0);
     vec3 col = vec3(texture2D(tex, uv_r).r, texture2D(tex, uv_g).g, texture2D(tex, uv_b).b);
 
-    // Milky body, a little brighter toward the curved edge.
+    // Glass makes what is behind it a little more vivid.
+    float luma = dot(col, vec3(0.299, 0.587, 0.114));
+    col = mix(vec3(luma), col, 1.45);
+
+    // Milky body, a little brighter toward the curved edge, with a soft sheen
+    // across the top half.
     col = mix(col, vec3(1.0), tint);
-    col += bend * 0.10;
+    col += bend * 0.12;
+    float y = cogl_tex_coord_in[0].y;
+    col += 0.10 * (1.0 - smoothstep(0.0, 0.55, y));
 
     // Specular highlight along the rim, brightest on the side facing the
-    // light, with a faint reflection on the opposite side.
+    // light, with a faint reflection on the opposite side, plus a thin bright
+    // line just inside the edge all the way round.
     vec2 L = normalize(vec2(light_x, light_y));
     float rim = 1.0 - smoothstep(0.0, 2.5, abs(d + 1.25));
     float facing = dot(n, L);
-    col += rim * (0.70 * max(facing, 0.0) + 0.22 * max(-facing, 0.0));
+    col += rim * (0.80 * max(facing, 0.0) + 0.30 * max(-facing, 0.0));
+    col += (1.0 - smoothstep(0.0, 1.0, abs(d + 2.5))) * 0.25;
+
+    // Slightly darker just outside the bright line, so the edge reads on a
+    // light wallpaper.
+    col -= (1.0 - smoothstep(0.0, 1.2, abs(d + 0.6))) * 0.10 * (1.0 - max(facing, 0.0));
 
     // Anti-aliased rounded shape, premultiplied.
     float a = clamp(0.5 - d, 0.0, 1.0);
@@ -81,8 +94,8 @@ class LiquidGlassEffect extends Clutter.ShaderEffect {
         this.set_shader_source(SHADER);
         this.setGeometry(1, 1, 16);
         this.setLight(-0.35, -1);
-        this.set_uniform_value('bezel', f(14));
-        this.set_uniform_value('tint', f(0.28));
+        this.set_uniform_value('bezel', f(18));
+        this.set_uniform_value('tint', f(0.22));
     }
 
     setGeometry(width, height, radius) {
@@ -99,7 +112,21 @@ class LiquidGlassEffect extends Clutter.ShaderEffect {
     }
 });
 
-// One glass slab behind one dock.
+// The slab takes no room in the dock's layout (otherwise the dock would grow
+// to fit it); a BindConstraint gives it the dock background's exact box.
+const GlassSlab = GObject.registerClass(
+class GlassSlab extends St.Widget {
+    vfunc_get_preferred_width(_forHeight) {
+        return [0, 0];
+    }
+
+    vfunc_get_preferred_height(_forWidth) {
+        return [0, 0];
+    }
+});
+
+// One glass slab behind one dock's icons. It sits in Dash to Dock's dash just
+// above the (transparent) .dash-background, which keeps its shadow underneath.
 class DockGlass {
     constructor(container) {
         this._container = container;
@@ -109,10 +136,12 @@ class DockGlass {
             .find(c => c.has_style_class_name?.('dash-background'));
         if (!dashBox || !this._dash || !this._dashBackground)
             throw new Error('Dash to Dock layout not recognised');
-        this._dashBox = dashBox;
 
         this._monitor = Main.layoutManager.findMonitorForActor(container);
-        this.actor = new St.Widget({name: 'craftos-liquid-glass', clip_to_allocation: true, reactive: false});
+        this.actor = new GlassSlab({name: 'craftos-liquid-glass', clip_to_allocation: true, reactive: false});
+        this.actor.add_constraint(new Clutter.BindConstraint({
+            source: this._dashBackground, coordinate: Clutter.BindCoordinate.ALL,
+        }));
         this._wallpaper = new St.Widget({width: this._monitor.width, height: this._monitor.height});
         this._bgManager = new Background.BackgroundManager({
             container: this._wallpaper,
@@ -126,7 +155,7 @@ class DockGlass {
         this.actor.add_child(this._wallpaper);
         this._glass = new LiquidGlassEffect();
         this.actor.add_effect(this._glass);
-        dashBox.insert_child_at_index(this.actor, 0);
+        this._dash.insert_child_above(this.actor, this._dashBackground);
 
         this._ids = [
             [this._dashBackground, this._dashBackground.connect('notify::allocation', () => this._queueUpdate())],
@@ -159,8 +188,6 @@ class DockGlass {
         const [w, h] = bg.get_size();
         if (w <= 0 || h <= 0)
             return;
-        this.actor.set_position(this._dash.x + bg.x, this._dash.y + bg.y);
-        this.actor.set_size(w, h);
 
         const [tx, ty] = bg.get_transformed_position();
         this._wallpaper.set_position(-(tx - this._monitor.x), -(ty - this._monitor.y));
