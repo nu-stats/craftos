@@ -1,4 +1,4 @@
-# macOS-style layout (like Zorin's macOS layout): top bar with the CraftOS
+# Light, macOS-style layout (like Zorin's macOS layout): top bar with the CraftOS
 # menu at the left, a centered floating dock at the bottom, window buttons on
 # the left. Arc theme, Papirus icons, ArtCraft office apps and Craft apps
 # pinned. Launchers whose app is not installed are ignored by GNOME.
@@ -9,18 +9,19 @@ enabled-extensions=['dash-to-dock@micxgx.gmail.com', 'craftos-shell@craftos', 'a
 favorite-apps=['firefox-esr.desktop', 'org.gnome.Nautilus.desktop', 'ai.storyteller.wordcraft.desktop', 'ai.storyteller.gridcraft.desktop', 'ai.storyteller.deckcraft.desktop', 'ai.storyteller.pdfcraft.desktop', 'statcraft.desktop', 'rcraft.desktop', 'qualcraft.desktop', 'org.gnome.Software.desktop']
 
 [org/gnome/desktop/interface]
-gtk-theme='Arc'
+gtk-theme='Adwaita'
+color-scheme='prefer-light'
 icon-theme='Papirus'
 font-name='Inter 10'
 clock-show-date=true
 
 [org/gnome/desktop/background]
-picture-uri='file:///usr/share/backgrounds/craftos/contours-1921-faint-dark.jpg'
+picture-uri='file:///usr/share/backgrounds/craftos/contours-1921-faint-paper.jpg'
 picture-uri-dark='file:///usr/share/backgrounds/craftos/contours-1921-faint-dark.jpg'
 picture-options='zoom'
 
 [org/gnome/desktop/screensaver]
-picture-uri='file:///usr/share/backgrounds/craftos/contours-1921-faint-dark.jpg'
+picture-uri='file:///usr/share/backgrounds/craftos/contours-1921-faint-paper.jpg'
 picture-options='zoom'
 
 [org/gnome/desktop/wm/preferences]
@@ -39,10 +40,29 @@ show-apps-at-top=true
 show-trash=false
 show-mounts=false
 running-indicator-style='DOTS'
-transparency-mode='FIXED'
-background-opacity=0.35
+custom-theme-customize-running-dots=true
+custom-theme-running-dots-color='#1d1d1f'
+custom-theme-running-dots-border-color='#1d1d1f'
 click-action='minimize-or-previews'
 disable-overview-on-startup=true
+
+# Frosted glass (Blur My Shell): white frost on the top bar and dock for the
+# light Mac-style look; the overview keeps GNOME's darker blur.
+[org/gnome/shell/extensions/blur-my-shell/panel]
+blur=true
+customize=true
+sigma=30
+brightness=1.0
+color=(1.0, 1.0, 1.0, 0.6)
+override-background=true
+
+[org/gnome/shell/extensions/blur-my-shell/dash-to-dock]
+blur=true
+customize=true
+sigma=30
+brightness=1.0
+color=(1.0, 1.0, 1.0, 0.45)
+override-background=true
 
 # Optional Windows-style taskbar (not enabled by default).
 [org/gnome/shell/extensions/dash-to-panel]
@@ -87,3 +107,5 @@ show-trash=true
 show-volumes=true
 start-corner='top-right'
 icon-size='standard'
+# Dark labels: the default wallpaper is light.
+dark-text-in-labels=true
