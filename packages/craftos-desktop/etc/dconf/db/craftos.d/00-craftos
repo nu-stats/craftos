@@ -1,13 +1,14 @@
 # Light, macOS-style layout (like Zorin's macOS layout): top bar with the CraftOS
 # menu at the left, a centered floating dock at the bottom, window buttons on
 # the left; workspace cube and wobbly windows. Adwaita light with green
-# accent, Papirus icons, ArtCraft office apps and Craft apps
-# pinned. Launchers whose app is not installed are ignored by GNOME.
+# accent, Papirus icons. The dock lists the nu-stats Craft apps first, then
+# Firefox, Files and Software (the ArtCraft apps are in the menu, not the
+# dock). Launchers whose app is not installed are ignored by GNOME.
 # Dash to Panel stays installed (and configured below) for anyone who prefers
 # a Windows-style taskbar; it is just not enabled by default.
 [org/gnome/shell]
 enabled-extensions=['dash-to-dock@micxgx.gmail.com', 'craftos-shell@craftos', 'appindicatorsupport@rgcjonas.gmail.com', 'arcmenu@arcmenu.com', 'ding@rastersoft.com', 'blur-my-shell@aunetx', 'desktop-cube@schneegans.github.com', 'compiz-windows-effect@hermes83.github.com']
-favorite-apps=['firefox-esr.desktop', 'org.gnome.Nautilus.desktop', 'ai.storyteller.wordcraft.desktop', 'ai.storyteller.gridcraft.desktop', 'ai.storyteller.deckcraft.desktop', 'ai.storyteller.pdfcraft.desktop', 'statcraft.desktop', 'rcraft.desktop', 'qualcraft.desktop', 'org.gnome.Software.desktop']
+favorite-apps=['statcraft.desktop', 'rcraft.desktop', 'qualcraft.desktop', 'egocraft.desktop', 'mapcraft.desktop', 'husky-eye-view.desktop', 'mergecraft.desktop', 'husky-explorer.desktop', 'heic-converter.desktop', 'craft-keys.desktop', 'firefox-esr.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop']
 
 # Super opens the CraftOS menu, so the overview (Mission Control) gets the
 # macOS-style Ctrl+Up, with Alt so text editors keep Ctrl+Up; it pairs with
