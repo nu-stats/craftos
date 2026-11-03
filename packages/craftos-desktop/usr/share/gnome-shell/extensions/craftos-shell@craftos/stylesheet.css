@@ -215,8 +215,10 @@
   box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.20);
 }
 
-/* Dock with the liquid glass switched off: plain light background. */
-#dashtodockContainer .dash-background.craftos-plain-dock {
+/* Dock with the liquid glass switched off: a plain light slab (glass.js
+   PlainDock), as round as the glass. */
+.craftos-plain-dock {
   background-color: rgba(250, 250, 252, 0.95);
   border: 1px solid rgba(0, 0, 0, 0.10);
+  border-radius: 26px;
 }

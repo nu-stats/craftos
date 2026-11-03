@@ -268,10 +268,37 @@ class DockGlass {
     }
 }
 
+// With the glass switched off: a plain light slab in the same place. It is our
+// own actor because Dash to Dock styles its background inline, which no
+// stylesheet rule can override.
+class PlainDock {
+    constructor(container) {
+        const dash = container._slider?.get_child()?.get_children()
+            .find(c => c.get_name() === 'dash');
+        const bg = dash?.get_children().find(c => c.has_style_class_name?.('dash-background'));
+        if (!bg)
+            throw new Error('Dash to Dock layout not recognised');
+        this.actor = new GlassSlab({style_class: 'craftos-plain-dock', reactive: false});
+        this.actor.connect('destroy', () => (this._actorGone = true));
+        this.actor.add_constraint(new Clutter.BindConstraint({
+            source: bg, coordinate: Clutter.BindCoordinate.ALL,
+        }));
+        dash.insert_child_above(this.actor, bg);
+    }
+
+    setLook(_look) {}
+
+    destroy() {
+        if (!this._actorGone)
+            this.actor.destroy();
+        this._actorGone = true;
+    }
+}
+
 // Finds Dash to Dock's docks (now and when they are recreated) and gives each
-// a glass slab while the Frosted Glass "dock" switch is on. Dash to Dock's own
-// background is transparent (CraftOS dconf defaults); with the glass off the
-// dock gets a plain light background instead.
+// a glass slab while the Frosted Glass "dock" switch is on, or a plain light
+// one while it is off. Dash to Dock's own background is transparent (CraftOS
+// dconf defaults).
 export class LiquidGlass {
     constructor(settings) {
         this._settings = settings;
@@ -306,29 +333,13 @@ export class LiquidGlass {
     _try(actor) {
         if (actor.get_name?.() !== 'dashtodockContainer' || this._docks.has(actor))
             return;
-        if (!this._settings.get_boolean('glass-dock')) {
-            this._plain(actor, true);
-            return;
-        }
         try {
-            this._docks.set(actor, new DockGlass(actor, this._look()));
+            this._docks.set(actor, this._settings.get_boolean('glass-dock')
+                ? new DockGlass(actor, this._look()) : new PlainDock(actor));
             actor.connect('destroy', () => this._docks?.delete(actor));
         } catch (e) {
             // Not laid out yet; the next scan tries again.
         }
-    }
-
-    // Plain light dock background when the glass is switched off.
-    _plain(container, on) {
-        const bg = container._slider?.get_child()?.get_children()
-            .find(c => c.get_name() === 'dash')?.get_children()
-            .find(c => c.has_style_class_name?.('dash-background'));
-        if (!bg)
-            return;
-        if (on && !bg.has_style_class_name('craftos-plain-dock'))
-            bg.add_style_class_name('craftos-plain-dock');
-        else if (!on)
-            bg.remove_style_class_name('craftos-plain-dock');
     }
 
     _restyle() {
@@ -340,10 +351,6 @@ export class LiquidGlass {
         for (const glass of this._docks.values())
             glass.destroy();
         this._docks.clear();
-        for (const child of Main.uiGroup.get_children()) {
-            if (child.get_name?.() === 'dashtodockContainer')
-                this._plain(child, false);
-        }
         this._scan();
     }
 
@@ -356,10 +363,6 @@ export class LiquidGlass {
             this._settings.disconnect(id);
         for (const glass of this._docks.values())
             glass.destroy();
-        for (const child of Main.uiGroup.get_children()) {
-            if (child.get_name?.() === 'dashtodockContainer')
-                this._plain(child, false);
-        }
         this._docks = null;
     }
 }

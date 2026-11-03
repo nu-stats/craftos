@@ -118,8 +118,9 @@ arcmenu-hotkey=['Super_L']
 # No "ArcMenu vN released" donation pop-up on first login.
 update-notifier-enabled=false
 position-in-panel='Left'
-# Pinned: the ArtCraft suite together first, then the basics and Craft apps.
-pinned-apps=[{'id': 'ai.storyteller.wordcraft.desktop'}, {'id': 'ai.storyteller.gridcraft.desktop'}, {'id': 'ai.storyteller.deckcraft.desktop'}, {'id': 'ai.storyteller.pdfcraft.desktop'}, {'id': 'firefox-esr.desktop'}, {'id': 'org.gnome.Nautilus.desktop'}, {'id': 'org.gnome.Terminal.desktop'}, {'id': 'org.gnome.Software.desktop'}, {'id': 'statcraft.desktop'}, {'id': 'rcraft.desktop'}, {'id': 'qualcraft.desktop'}]
+# Pinned: the nu-stats Craft apps first, then the basics, like the dock. The
+# ArtCraft apps have their own ArtCraft category.
+pinned-apps=[{'id': 'statcraft.desktop'}, {'id': 'rcraft.desktop'}, {'id': 'qualcraft.desktop'}, {'id': 'egocraft.desktop'}, {'id': 'mapcraft.desktop'}, {'id': 'husky-eye-view.desktop'}, {'id': 'mergecraft.desktop'}, {'id': 'husky-explorer.desktop'}, {'id': 'heic-converter.desktop'}, {'id': 'craft-keys.desktop'}, {'id': 'firefox-esr.desktop'}, {'id': 'org.gnome.Nautilus.desktop'}, {'id': 'org.gnome.Terminal.desktop'}, {'id': 'org.gnome.Software.desktop'}]
 
 # App grid: the ArtCraft suite in one folder, next to GNOME's Utilities.
 [org/gnome/desktop/app-folders]
