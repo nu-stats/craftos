@@ -78,17 +78,22 @@ void main(void) {
     // thin bright line just inside the edge all the way round.
     float rim = 1.0 - smoothstep(0.0, 2.0, abs(d + 1.0));
     col += rim * (0.95 * max(facing, 0.0) + 0.45 * max(-facing, 0.0));
-    col += (1.0 - smoothstep(0.0, 1.0, abs(d + 3.0))) * 0.30;
+    // (Lines are 1.5px soft, or they stair-step round the corners.)
+    col += (1.0 - smoothstep(0.0, 1.5, abs(d + 3.0))) * 0.24;
 
     // A dark hairline at the very edge, so the outline reads on light
     // wallpapers.
-    col -= (1.0 - smoothstep(0.0, 1.0, abs(d + 0.4))) * 0.22;
+    col -= (1.0 - smoothstep(0.0, 1.5, abs(d + 0.6))) * 0.18;
 
     // Anti-aliased rounded shape, premultiplied.
     float a = clamp(0.5 - d, 0.0, 1.0);
     cogl_color_out = vec4(min(col, vec3(1.0)) * a, a);
 }
 `;
+
+// Corner radius of the dock slab, in logical px; rounder than the lens bezel
+// is deep, so the edge shading follows a curve, not a squarish corner.
+const DOCK_RADIUS = 26;
 
 // Uniforms must be floats; whole numbers from JS would be sent as ints.
 const f = v => v + 1e-4;
@@ -160,6 +165,7 @@ class DockGlass {
 
         this._monitor = Main.layoutManager.findMonitorForActor(container);
         this.actor = new GlassSlab({name: 'craftos-liquid-glass', clip_to_allocation: true, reactive: false});
+        this.actor.connect('destroy', () => (this._actorGone = true));
         this.actor.add_constraint(new Clutter.BindConstraint({
             source: this._dashBackground, coordinate: Clutter.BindCoordinate.ALL,
         }));
@@ -222,7 +228,10 @@ class DockGlass {
         this._wallpaper.set_position(-(tx - this._monitor.x), -(ty - this._monitor.y));
 
         const node = bg.get_theme_node();
-        const radius = node.get_border_radius(St.Corner.TOPLEFT) || 18;
+        // At least as round as the lens bezel is deep; a tighter corner makes
+        // the edge shading turn square and the dock's ends look blocky.
+        const scale = St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        const radius = Math.max(node.get_border_radius(St.Corner.TOPLEFT), DOCK_RADIUS * scale);
         this._glass.setGeometry(w, h, radius);
         this._center = [tx + w / 2, ty + h / 2];
     }
@@ -253,7 +262,9 @@ class DockGlass {
             } catch (e) {}
         }
         this._bgManager?.destroy();
-        this.actor.destroy();
+        // When Dash to Dock rebuilds a dock it destroys the slab with it.
+        if (!this._actorGone)
+            this.actor.destroy();
     }
 }
 

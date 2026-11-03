@@ -28,6 +28,7 @@ export class FrostedWindows {
     enable() {
         this._apps = bmsSettings('applications');
         this._panel = bmsSettings('panel');
+        this._dock = bmsSettings('dash-to-dock');
         this._settingsIds = ['glass-windows', 'glass-panel', 'frost', 'opacity'].map(key =>
             this._settings.connect(`changed::${key}`, () => this._sync()));
         this._sync();
@@ -49,6 +50,10 @@ export class FrostedWindows {
         this._set(this._apps, 'sigma', frostRadius(this._settings), 'int');
         this._set(this._apps, 'opacity', Math.round(255 * glassAlpha(this._settings)), 'int');
         this._set(this._panel, 'blur', this._settings.get_boolean('glass-panel'), 'boolean');
+        // The dock has its own liquid glass (glass.js). Blur My Shell's dock
+        // blur is a square-cornered box that shows past the glass's rounded
+        // ends, and its own settings upgrades can switch it back on.
+        this._set(this._dock, 'blur', false, 'boolean');
     }
 
     disable() {
@@ -57,5 +62,6 @@ export class FrostedWindows {
         this._settingsIds = [];
         this._apps = null;
         this._panel = null;
+        this._dock = null;
     }
 }

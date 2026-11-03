@@ -183,12 +183,14 @@
   color: #1d1d1f;
 }
 
-/* Dock: no flat background or outline; the liquid glass slab is the dock.
-   A soft shadow lifts it off light wallpapers. */
+/* Dock: no flat background, outline or shadow; the liquid glass slab is the
+   dock, and its own dark hairline sets it off light wallpapers. (A shadow here
+   is cut off square at the edges of Dash to Dock's box, so the dock's rounded
+   ends look blocky.) */
 #dashtodockContainer .dash-background {
   background-color: transparent;
   border: none;
-  box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.16);
+  box-shadow: none;
 }
 
 /* Workspace switcher pop-up (Ctrl+Alt+Left/Right): light, like the menus. */
