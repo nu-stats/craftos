@@ -15,5 +15,8 @@ snapper --no-dbus -c root set-config \
     ALLOW_GROUPS=sudo SYNC_ACL=yes
 snapper --no-dbus -c root create --description "Fresh install" --userdata important=yes
 
+# Snapshots come from apt (and this "Fresh install" one); Debian's extra
+# snapshot at every boot would crowd the boot menu with near-identical entries.
+systemctl disable --now snapper-boot.timer 2>/dev/null || true
 systemctl enable --now grub-btrfsd.service
 update-grub
