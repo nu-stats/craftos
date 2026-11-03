@@ -7,6 +7,10 @@ if [ "$1" = remove ] || [ "$1" = purge ]; then
         firewall-offline-cmd --set-default-zone=public >/dev/null || true
     fi
     deb-systemd-helper purge craftos-snapshots-setup.service >/dev/null || true
+    # Back to Debian's boot menu background.
+    if [ -e /boot/grub/grub.cfg ] && command -v update-grub >/dev/null; then
+        update-grub || true
+    fi
 fi
 
 exit 0

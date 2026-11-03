@@ -18,6 +18,20 @@ if [ "$1" = configure ]; then
         systemctl daemon-reload || true
         systemctl start --no-block craftos-snapshots-setup.service || true
     fi
+
+    # Systems set up before snapshots-setup turned off Debian's snapshot at
+    # every boot still take one; turn it off once on upgrade (versions are
+    # 0.1.<build time>, and builds from 0.1.202611031700 on have the fix).
+    if [ -n "$2" ] && dpkg --compare-versions "$2" lt 0.1.202611031700 &&
+       [ -e /etc/snapper/configs/root ] && [ -d /run/systemd/system ]; then
+        systemctl disable --now snapper-boot.timer 2>/dev/null || true
+    fi
+
+    # Boot menu background (/etc/default/grub.d/50-craftos.cfg). Only on a
+    # system that boots with GRUB; the installer runs update-grub itself.
+    if [ -e /boot/grub/grub.cfg ] && command -v update-grub >/dev/null; then
+        update-grub || true
+    fi
 fi
 
 exit 0

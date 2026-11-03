@@ -140,6 +140,4 @@ publishes with whichever apps are ready.
 - Craft apps need `.deb` release assets (statcraft is still Phase 0).
 - `.desktop` file names in the dconf favourites (`statcraft.desktop`, ...) must
   match what each app's `.deb` installs.
-- Installed systems boot with Debian's plain GRUB menu; the CraftOS boot theme
-  is only on the ISO.
 - Secure Boot and ARM64 builds.
