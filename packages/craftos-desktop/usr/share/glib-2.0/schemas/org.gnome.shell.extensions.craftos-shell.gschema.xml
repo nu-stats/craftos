@@ -26,6 +26,11 @@
       <default>50</default>
       <summary>Frost thickness (how strongly what is behind is blurred)</summary>
     </key>
+    <key name="dock-glass" type="i">
+      <range min="0" max="100"/>
+      <default>8</default>
+      <summary>Dock glass: 0 is clear liquid glass, 100 is frosted white</summary>
+    </key>
     <key name="opacity" type="i">
       <range min="40" max="100"/>
       <default>80</default>

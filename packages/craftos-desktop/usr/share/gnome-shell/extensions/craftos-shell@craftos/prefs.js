@@ -54,6 +54,8 @@ export default class CraftOSShellPrefs extends ExtensionPreferences {
             'How strongly what is behind the glass is blurred', 0, 100, 'Clear', 'Thick'));
         look.add(sliderRow(settings, 'opacity', 'Glass opacity',
             'How much shows through the glass', 40, 100, 'See-through', 'Solid'));
+        look.add(sliderRow(settings, 'dock-glass', 'Dock glass',
+            'How clear the liquid glass dock is', 0, 100, 'Clear', 'Frosted'));
         const reset = new Adw.ActionRow({title: 'Restore defaults'});
         const button = new Gtk.Button({label: 'Reset', valign: Gtk.Align.CENTER});
         button.connect('clicked', () => {

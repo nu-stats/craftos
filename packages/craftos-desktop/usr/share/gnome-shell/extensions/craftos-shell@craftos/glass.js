@@ -43,41 +43,46 @@ void main(void) {
         rounded_box(p + vec2(0.0, 1.0), half_size, radius) - rounded_box(p - vec2(0.0, 1.0), half_size, radius));
     vec2 n = length(g) > 0.0 ? normalize(g) : vec2(0.0);
 
-    // Lens: flat in the middle, curving over the last "bezel" pixels, so the
-    // edge pulls the picture inward (magnified and bent, like thick glass).
+    // Clear glass is seen by what it does to the picture behind it, not by a
+    // tint. The whole slab magnifies a little (lines inside do not meet the
+    // ones outside), and over the last "bezel" pixels the lens curves, pulling
+    // the picture strongly inward, like the rounded edge of thick glass.
     float t = clamp(1.0 + d / bezel, 0.0, 1.0);
     float bend = t * t * t;
-    vec2 off = -n * bend * bezel * 0.85;
+    vec2 off = -n * bend * bezel * 1.6;
+    vec2 q = p * 0.88;
 
     // Colour split at the rim (dispersion).
-    vec2 uv_r = clamp((p + off * 1.18 + half_size) / size, 0.0, 1.0);
-    vec2 uv_g = clamp((p + off + half_size) / size, 0.0, 1.0);
-    vec2 uv_b = clamp((p + off * 0.82 + half_size) / size, 0.0, 1.0);
+    vec2 uv_r = clamp((q + off * 1.25 + half_size) / size, 0.0, 1.0);
+    vec2 uv_g = clamp((q + off + half_size) / size, 0.0, 1.0);
+    vec2 uv_b = clamp((q + off * 0.75 + half_size) / size, 0.0, 1.0);
     vec3 col = vec3(texture2D(tex, uv_r).r, texture2D(tex, uv_g).g, texture2D(tex, uv_b).b);
 
-    // Glass makes what is behind it a little more vivid.
+    // Glass makes what is behind it more vivid.
     float luma = dot(col, vec3(0.299, 0.587, 0.114));
-    col = mix(vec3(luma), col, 1.45);
+    col = mix(vec3(luma), col, 1.6);
 
-    // Milky body, a little brighter toward the curved edge, with a soft sheen
-    // across the top half.
+    // Milky body (the Dock glass slider), with a soft sheen across the top.
     col = mix(col, vec3(1.0), tint);
-    col += bend * 0.12;
     float y = cogl_tex_coord_in[0].y;
-    col += 0.10 * (1.0 - smoothstep(0.0, 0.55, y));
+    col += (0.05 + 0.08 * tint) * (1.0 - smoothstep(0.0, 0.5, y));
 
-    // Specular highlight along the rim, brightest on the side facing the
-    // light, with a faint reflection on the opposite side, plus a thin bright
-    // line just inside the edge all the way round.
+    // The curved edge catches light on the side facing it and falls into
+    // shade on the other, so the slab's thickness shows on any wallpaper.
     vec2 L = normalize(vec2(light_x, light_y));
-    float rim = 1.0 - smoothstep(0.0, 2.5, abs(d + 1.25));
     float facing = dot(n, L);
-    col += rim * (0.80 * max(facing, 0.0) + 0.30 * max(-facing, 0.0));
-    col += (1.0 - smoothstep(0.0, 1.0, abs(d + 2.5))) * 0.25;
+    col += bend * 0.30 * max(facing, 0.0);
+    col *= 1.0 - bend * 0.22 * (1.0 - max(facing, 0.0));
 
-    // Slightly darker just outside the bright line, so the edge reads on a
-    // light wallpaper.
-    col -= (1.0 - smoothstep(0.0, 1.2, abs(d + 0.6))) * 0.10 * (1.0 - max(facing, 0.0));
+    // Specular highlight along the rim, brightest facing the light, plus a
+    // thin bright line just inside the edge all the way round.
+    float rim = 1.0 - smoothstep(0.0, 2.0, abs(d + 1.0));
+    col += rim * (0.95 * max(facing, 0.0) + 0.45 * max(-facing, 0.0));
+    col += (1.0 - smoothstep(0.0, 1.0, abs(d + 3.0))) * 0.30;
+
+    // A dark hairline at the very edge, so the outline reads on light
+    // wallpapers.
+    col -= (1.0 - smoothstep(0.0, 1.0, abs(d + 0.4))) * 0.22;
 
     // Anti-aliased rounded shape, premultiplied.
     float a = clamp(0.5 - d, 0.0, 1.0);
@@ -105,7 +110,7 @@ class LiquidGlassEffect extends Clutter.ShaderEffect {
         this.set_shader_source(SHADER);
         this.setGeometry(1, 1, 16);
         this.setLight(-0.35, -1);
-        this.set_uniform_value('bezel', f(18));
+        this.set_uniform_value('bezel', f(22));
         this.set_uniform_value('tint', f(0.22));
     }
 
@@ -188,13 +193,13 @@ class DockGlass {
         });
     }
 
-    // look: {radius, alpha} from the Frosted Glass sliders.
+    // look: {radius, milk} from the Frosted Glass sliders: frost thickness and
+    // the dock's own "Dock glass" slider (0 clear .. 1 frosted white).
     setLook(look) {
         const scale = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-        this._blur.radius = Math.round(look.radius * 0.6) * scale;
-        // Opacity 40 -> nearly clear, 80 (default) -> 0.22, 100 -> solid white.
-        const a = look.alpha;
-        this._glass.setTint(a >= 0.8 ? 0.22 + (a - 0.8) * 3.9 : 0.22 - (0.8 - a) * 0.5);
+        // Clear glass blurs little, so the wallpaper reads through it.
+        this._blur.radius = Math.round(look.radius * 0.6 * (0.3 + 0.7 * look.milk)) * scale;
+        this._glass.setTint(look.milk);
     }
 
     _queueUpdate() {
@@ -268,7 +273,7 @@ export class LiquidGlass {
         this._settingsIds = [
             this._settings.connect('changed::glass-dock', () => this._rebuild()),
             this._settings.connect('changed::frost', () => this._restyle()),
-            this._settings.connect('changed::opacity', () => this._restyle()),
+            this._settings.connect('changed::dock-glass', () => this._restyle()),
         ];
         // Dash to Dock may start after this extension.
         this._retry = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 2, () => {
@@ -279,7 +284,7 @@ export class LiquidGlass {
     }
 
     _look() {
-        return {radius: frostRadius(this._settings), alpha: glassAlpha(this._settings)};
+        return {radius: frostRadius(this._settings), milk: this._settings.get_int('dock-glass') / 100};
     }
 
     _scan() {
