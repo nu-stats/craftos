@@ -1,0 +1,4 @@
+CraftOS system defaults. Copyright nu-stats. MIT License.
+usr/share/initramfs-tools/scripts/local-bottom/craftos-snapshot-overlay is a
+port of grub-btrfs's Arch Linux overlay hook (Antynea, GPL-3.0); that file is
+under the GNU General Public License v3.0, see /usr/share/common-licenses/GPL-3.

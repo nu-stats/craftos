@@ -1,0 +1,19 @@
+#!/bin/sh
+# CraftOS: on the first boot of a system installed on Btrfs, set up snapper
+# for / so apt takes a snapshot before and after every change (snapper's own
+# apt hook), take a "fresh install" snapshot, and turn on grub-btrfs so the
+# snapshots show up in the boot menu. Does nothing on other filesystems or in
+# the live session. /home is its own subvolume, so snapshots never include
+# (or roll back) your files.
+set -e
+[ "$(findmnt -no FSTYPE /)" = btrfs ] || exit 0
+[ -e /etc/snapper/configs/root ] && exit 0
+
+snapper --no-dbus -c root create-config /
+snapper --no-dbus -c root set-config \
+    TIMELINE_CREATE=no NUMBER_LIMIT=10 NUMBER_LIMIT_IMPORTANT=5 \
+    ALLOW_GROUPS=sudo SYNC_ACL=yes
+snapper --no-dbus -c root create --description "Fresh install" --userdata important=yes
+
+systemctl enable --now grub-btrfsd.service
+update-grub

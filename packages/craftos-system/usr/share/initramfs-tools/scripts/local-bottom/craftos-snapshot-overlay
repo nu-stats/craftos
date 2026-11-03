@@ -1,0 +1,27 @@
+#!/bin/sh
+# CraftOS: boot an older snapshot from the GRUB "snapshots" menu. Snapshots
+# are read-only, and Debian cannot start from a read-only / (it needs to write
+# to /var). So, like a live USB, lay a RAM overlay over the snapshot: it boots
+# normally, nothing in the snapshot changes, and changes to the system are
+# lost at shutdown (your files in /home are not affected). Port of
+# grub-btrfs's Arch Linux overlay hook to initramfs-tools.
+PREREQ=""
+prereqs() { echo "$PREREQ"; }
+case "$1" in prereqs) prereqs; exit 0 ;; esac
+
+# grub-btrfs boots snapshots with rootflags=subvol=.../.snapshots/N/snapshot.
+case " $(cat /proc/cmdline) " in
+    *subvol=*.snapshots/*) ;;
+    *) exit 0 ;;
+esac
+
+. /scripts/functions
+log_begin_msg "Booting a snapshot (changes are kept in RAM only)"
+d=/run/craftos-snapshot
+mkdir -p "$d/lower" "$d/rw"
+mount --move "${rootmnt}" "$d/lower"
+mount -t tmpfs -o mode=0755 craftos-snapshot "$d/rw"
+mkdir -p "$d/rw/upper" "$d/rw/work"
+mount -t overlay -o "lowerdir=$d/lower,upperdir=$d/rw/upper,workdir=$d/rw/work" \
+    craftos-snapshot "${rootmnt}"
+log_end_msg

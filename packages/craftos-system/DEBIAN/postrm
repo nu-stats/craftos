@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+
+if [ "$1" = remove ] || [ "$1" = purge ]; then
+    if command -v firewall-offline-cmd >/dev/null &&
+       [ "$(firewall-offline-cmd --get-default-zone 2>/dev/null)" = CraftOS ]; then
+        firewall-offline-cmd --set-default-zone=public >/dev/null || true
+    fi
+    deb-systemd-helper purge craftos-snapshots-setup.service >/dev/null || true
+fi
+
+exit 0

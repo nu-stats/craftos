@@ -4,7 +4,7 @@ Section: metapackages
 Priority: optional
 Architecture: all
 Maintainer: nu-stats <j.stowell@northeastern.edu>
-Depends: dconf-cli, gnome-shell-extension-prefs, systemd-timesyncd, gnome-shell-extension-dashtodock, gnome-shell-extension-dash-to-panel, gnome-shell-extension-appindicator, gnome-shell-extension-arc-menu, gir1.2-gmenu-3.0, gnome-shell-extension-desktop-icons-ng, gnome-sushi, gnome-shell-extension-blur-my-shell, gnome-shell-extension-desktop-cube, gnome-shell-extension-compiz-windows-effect, arc-theme, papirus-icon-theme, fonts-inter, r-base, python3
+Depends: craftos-system, dconf-cli, gnome-shell-extension-prefs, systemd-timesyncd, gnome-shell-extension-dashtodock, gnome-shell-extension-dash-to-panel, gnome-shell-extension-appindicator, gnome-shell-extension-arc-menu, gir1.2-gmenu-3.0, gnome-shell-extension-desktop-icons-ng, gnome-sushi, gnome-shell-extension-blur-my-shell, gnome-shell-extension-desktop-cube, gnome-shell-extension-compiz-windows-effect, arc-theme, papirus-icon-theme, fonts-inter, r-base, python3
 Recommends: statcraft, rcraft, qualcraft, egocraft, mapcraft, husky-eye-view, mergecraft, husky-explorer, heic-converter, craft-keys
 Description: CraftOS desktop metapackage
  Pulls in WordCraft, GridCraft, DeckCraft and PdfCraft (made by the ArtCraft

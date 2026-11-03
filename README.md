@@ -60,6 +60,23 @@ CraftOS is not affiliated with any of these projects. Its own artwork
 CraftOS is built on [Debian](https://www.debian.org) and is not affiliated
 with the Debian project.
 
+## Under the hood: the Fedora favourites
+
+The `craftos-system` package (installed with the desktop, updated by apt):
+
+| Feature | How |
+|---|---|
+| Btrfs by default, zstd compression | The installer defaults to Btrfs with `@`, `@home`, `@cache` and `@log` subvolumes |
+| Undo a bad update | snapper takes a snapshot before and after every apt run; **Btrfs Assistant** browses and restores them; GRUB's "snapshots" menu boots an older one (in RAM, like a live USB). Your files in /home are never rolled back |
+| Compressed swap in RAM | zram (zstd, half of RAM, at most 8 GB) |
+| No freeze-ups when memory runs out | systemd-oomd |
+| Firmware updates in Software | fwupd (LVFS) |
+| Firewall on | firewalld, "CraftOS" zone: incoming blocked except printer and file-sharing discovery |
+| Codecs | GStreamer libav, ugly and bad plugins; ffmpeg |
+
+[grub-btrfs](https://github.com/Antynea/grub-btrfs) (GPL-3.0) is packaged
+unmodified by CraftOS, since Debian 13 does not ship it.
+
 ## Apps: apt only
 
 All software comes from Debian and the CraftOS apt repo; there is no Flatpak
@@ -125,5 +142,4 @@ publishes with whichever apps are ready.
   match what each app's `.deb` installs.
 - Installed systems boot with Debian's plain GRUB menu; the CraftOS boot theme
   is only on the ISO.
-- Btrfs with snapshots, zram, fwupd, firewall (see the
-  Fedora-features plan); secure boot and ARM64 builds.
+- Secure Boot and ARM64 builds.

@@ -64,6 +64,59 @@ gtk-update-icon-cache -f /usr/share/icons/hicolor 2>/dev/null || true
 # System" launcher then sits in the app grid forever. Remove it too.
 sed -i "/^ *- 'calamares-settings-debian'\$/a\\      - 'calamares'" /etc/calamares/modules/packages.conf
 
+# Installs default to Btrfs, like Fedora: zstd compression, and subvolumes for
+# / (@), /home (@home), /var/cache and /var/log, so system snapshots
+# (craftos-system: snapper before and after every apt run) never include or
+# roll back your files or logs. Swap is zram (craftos-system), so no swap
+# partition by default. Debian ships no partition.conf, and its mount.conf
+# has no Btrfs layout (without one, / and /home would share a subvolume).
+cat > /etc/calamares/modules/partition.conf <<'EOF'
+efi:
+    mountPoint: "/boot/efi"
+    recommendedSize: 300MiB
+    minimumSize: 32MiB
+    label: "EFI"
+userSwapChoices:
+    - none
+    - small
+    - file
+initialSwapChoice: none
+luksGeneration: luks1
+drawNestedPartitions: false
+alwaysShowPartitionLabels: true
+initialPartitioningChoice: none
+defaultFileSystemType: "btrfs"
+availableFileSystemTypes: ["btrfs", "ext4", "xfs"]
+essentialMounts: ["live-*", "control", "ventoy"]
+lvm:
+    enable: true
+EOF
+cat >> /etc/calamares/modules/mount.conf <<'EOF'
+
+# CraftOS: Btrfs layout and options (see 0100-branding.hook.chroot).
+btrfsSubvolumes:
+    - mountPoint: /
+      subvolume: /@
+    - mountPoint: /home
+      subvolume: /@home
+    - mountPoint: /var/cache
+      subvolume: /@cache
+    - mountPoint: /var/log
+      subvolume: /@log
+btrfsSwapSubvol: /@swap
+mountOptions:
+    - filesystem: default
+      options: [ defaults ]
+    - filesystem: efi
+      options: [ defaults, umask=0077 ]
+    - filesystem: btrfs
+      options: [ defaults, noatime, compress=zstd:1 ]
+    - filesystem: btrfs_swap
+      options: [ defaults, noatime ]
+EOF
+sed -i 's/^\( *btrfs: defaults,noatime\)$/\1,compress=zstd:1/; s/^\( *btrfs: discard\),compress=lzo$/\1,compress=zstd:1/' \
+    /etc/calamares/modules/fstab.conf
+
 # Live desktop shortcut: Debian marks it trusted only on Xfce, so GNOME's
 # desktop shows a raw "install-debian.desktop" file. Trust it everywhere.
 sed -i 's/^if \[ "\$XDG_CURRENT_DESKTOP" = "XFCE" \]; then *$/if true; then/' /usr/bin/add-calamares-desktop-icon

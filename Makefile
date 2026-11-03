@@ -9,6 +9,7 @@ repo: apps trial extensions meta
 
 extensions:
 	sh scripts/build-extension-debs.sh
+	sh scripts/build-grub-btrfs.sh
 
 # The ISO installs from the hosted repo, so publish the repo first.
 iso:

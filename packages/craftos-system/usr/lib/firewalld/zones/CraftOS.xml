@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- CraftOS default zone: a desktop firewall that blocks everything coming in
+     except replies to your own connections and the discovery that printers,
+     file sharing and network names need. Stricter than Fedora Workstation's
+     zone, which leaves ports 1025-65535 open. -->
+<zone>
+  <short>CraftOS</short>
+  <description>Default for CraftOS desktops. Incoming connections are blocked, except network setup (DHCPv6), local name and printer discovery (mDNS) and Windows file-sharing browsing. Open more in Firewall settings if you run a server.</description>
+  <service name="dhcpv6-client"/>
+  <service name="mdns"/>
+  <service name="samba-client"/>
+  <forward/>
+</zone>

@@ -3,6 +3,7 @@
 # the installed system keep pulling updates from the same repo.
 craftos-archive-keyring
 craftos-desktop
+craftos-system
 
 # Toolchain the stats apps lean on (Depends of craftos-desktop covers most;
 # listed here so the ISO fails loudly if one disappears).

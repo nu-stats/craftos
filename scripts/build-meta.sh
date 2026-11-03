@@ -1,5 +1,5 @@
 #!/bin/sh
-# Build the craftos-desktop and craftos-archive-keyring packages into
+# Build the craftos-desktop, craftos-system and craftos-archive-keyring packages into
 # repo/incoming/. The version is date-stamped so every run is an upgrade.
 # Run scripts/fetch-apps.sh first: craftos-desktop gets a hard Depends on every
 # app .deb found in repo/incoming/, so the ISO (which installs with recommends
@@ -24,7 +24,7 @@ for deb in "$out"/*.deb; do
 done
 echo "bundling apps:${apps:- (none)}"
 
-for pkg in craftos-desktop craftos-archive-keyring; do
+for pkg in craftos-desktop craftos-system craftos-archive-keyring; do
     stage="$tmp/$pkg"
     cp -r "packages/$pkg" "$stage"
     sed -i "s/^Version:.*/Version: $version/" "$stage/DEBIAN/control"

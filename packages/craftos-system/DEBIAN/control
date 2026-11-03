@@ -1,0 +1,20 @@
+Package: craftos-system
+Version: 0.1
+Section: admin
+Priority: optional
+Architecture: all
+Depends: systemd-zram-generator, systemd-oomd, fwupd, gnome-software-plugin-fwupd, firewalld, btrfs-progs, snapper, btrfs-assistant, grub-btrfs, inotify-tools, initramfs-tools, gstreamer1.0-libav, gstreamer1.0-plugins-ugly, gstreamer1.0-plugins-bad
+Recommends: ffmpeg
+Maintainer: nu-stats <j.stowell@northeastern.edu>
+Homepage: https://github.com/nu-stats/craftos
+Description: CraftOS system defaults (the Fedora-style extras)
+ What makes CraftOS feel like Fedora under the hood, on Debian:
+  - zram: compressed swap in RAM (zstd, up to half of RAM, at most 8 GB);
+  - systemd-oomd: stops runaway programs before the desktop freezes;
+  - firmware updates from the Software app (fwupd / LVFS);
+  - firewall on by default (firewalld, "CraftOS" zone: nothing comes in
+    except printer and file-sharing discovery);
+  - Btrfs snapshots before and after every apt run (snapper), the Btrfs
+    Assistant app to browse and restore them, and a GRUB menu to boot into
+    an older snapshot (grub-btrfs);
+  - audio and video codecs.

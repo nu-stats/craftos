@@ -1,0 +1,23 @@
+#!/bin/sh
+set -e
+
+if [ "$1" = configure ]; then
+    # Firewall: the CraftOS zone is the default on first install only, so a
+    # zone chosen later is kept across upgrades.
+    if [ -z "$2" ] && command -v firewall-offline-cmd >/dev/null; then
+        firewall-offline-cmd --set-default-zone=CraftOS >/dev/null
+        if [ -d /run/systemd/system ] && systemctl -q is-active firewalld; then
+            firewall-cmd --reload >/dev/null || true
+        fi
+    fi
+
+    # Snapshots: set up on the first boot of a Btrfs install (or now, for a
+    # running system that is already on Btrfs).
+    deb-systemd-helper enable craftos-snapshots-setup.service >/dev/null || true
+    if [ -d /run/systemd/system ]; then
+        systemctl daemon-reload || true
+        systemctl start --no-block craftos-snapshots-setup.service || true
+    fi
+fi
+
+exit 0

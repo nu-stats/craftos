@@ -1,0 +1,11 @@
+[Unit]
+Description=Set up CraftOS system snapshots (Btrfs)
+ConditionPathExists=!/etc/snapper/configs/root
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/craftos/snapshots-setup
+
+[Install]
+WantedBy=multi-user.target
