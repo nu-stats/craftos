@@ -192,6 +192,28 @@
   border: none;
   box-shadow: none;
 }
+/* No box behind the app-grid button or a hovered icon: it showed as a second,
+   squarer outline inside the dock's left end, and under a magnified icon.
+   (GNOME 45+ calls the tiles .overview-tile; older ones .app-well-app.) */
+#dashtodockContainer .overview-icon,
+#dashtodockContainer .overview-tile,
+#dashtodockContainer .overview-tile:hover,
+#dashtodockContainer .overview-tile:focus,
+#dashtodockContainer .overview-tile:active,
+#dashtodockContainer .overview-tile:checked,
+#dashtodockContainer .app-well-app:hover .overview-icon,
+#dashtodockContainer .show-apps,
+#dashtodockContainer .show-apps:hover,
+#dashtodockContainer .show-apps:focus,
+#dashtodockContainer .show-apps:checked,
+#dashtodockContainer .show-apps:hover .overview-icon,
+#dashtodockContainer .show-apps:checked .overview-icon,
+#dashtodockContainer .show-apps .show-apps-icon,
+#dashtodockContainer .show-apps:hover .show-apps-icon {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
 
 /* Workspace switcher pop-up (Ctrl+Alt+Left/Right): light, like the menus. */
 .workspace-switcher-container {
@@ -216,9 +238,10 @@
 }
 
 /* Dock with the liquid glass switched off: a plain light slab (glass.js
-   PlainDock), as round as the glass. */
+   PlainDock), half-round at the ends like the glass (St caps the radius at
+   half the height). */
 .craftos-plain-dock {
   background-color: rgba(250, 250, 252, 0.95);
   border: 1px solid rgba(0, 0, 0, 0.10);
-  border-radius: 26px;
+  border-radius: 999px;
 }

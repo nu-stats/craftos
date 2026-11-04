@@ -31,6 +31,16 @@
       <default>8</default>
       <summary>Dock glass: 0 is clear liquid glass, 100 is frosted white</summary>
     </key>
+    <key name="dock-size" type="i">
+      <range min="24" max="64"/>
+      <default>40</default>
+      <summary>Dock icon size in px (Dash to Dock's icon size follows it)</summary>
+    </key>
+    <key name="dock-magnify" type="i">
+      <range min="0" max="150"/>
+      <default>75</default>
+      <summary>Dock magnification on hover: 0 is off, 100 doubles the icon, 150 makes it 2.5 times</summary>
+    </key>
     <key name="opacity" type="i">
       <range min="40" max="100"/>
       <default>80</default>

@@ -12,9 +12,9 @@ function switchRow(settings, key, title, subtitle) {
     return row;
 }
 
-function sliderRow(settings, key, title, subtitle, min, max, lowLabel, highLabel) {
+function sliderRow(settings, key, title, subtitle, min, max, lowLabel, highLabel, step = 1) {
     const row = new Adw.ActionRow({title, subtitle});
-    const adjustment = new Gtk.Adjustment({lower: min, upper: max, step_increment: 1, page_increment: 10});
+    const adjustment = new Gtk.Adjustment({lower: min, upper: max, step_increment: step, page_increment: 10});
     settings.bind(key, adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
     const scale = new Gtk.Scale({
         adjustment, draw_value: false, hexpand: true, width_request: 240,
@@ -65,6 +65,14 @@ export default class CraftOSShellPrefs extends ExtensionPreferences {
         reset.add_suffix(button);
         look.add(reset);
         page.add(look);
+
+        const dock = new Adw.PreferencesGroup({title: 'Dock'});
+        // (Dash to Dock draws icons in 8px steps.)
+        dock.add(sliderRow(settings, 'dock-size', 'Size',
+            'How big the dock and its icons are', 24, 64, 'Small', 'Large', 8));
+        dock.add(sliderRow(settings, 'dock-magnify', 'Magnification',
+            'How much icons grow under the pointer', 0, 150, 'Off', 'Big'));
+        page.add(dock);
 
         window.add(page);
     }

@@ -4,7 +4,7 @@
 set -e
 P=http://10.0.2.2:8000/packages/craftos-desktop
 E=/usr/share/gnome-shell/extensions/craftos-shell@craftos
-for f in extension.js glass.js menus.js windows.js prefs.js stylesheet.css metadata.json; do
+for f in extension.js dock.js glass.js menus.js windows.js prefs.js stylesheet.css metadata.json; do
   curl -sf -o $E/$f $P$E/$f
 done
 S=/usr/share/glib-2.0/schemas/org.gnome.shell.extensions.craftos-shell.gschema.xml
